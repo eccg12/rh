@@ -1,3 +1,4 @@
+import { adminRouter } from "@/server/api/routers/admin";
 import { demoRouter } from "@/server/api/routers/demo";
 import { healthRouter } from "@/server/api/routers/health";
 import { onboardingRouter } from "@/server/api/routers/onboarding";
@@ -9,6 +10,7 @@ export const appRouter = createTRPCRouter({
   session: sessionRouter,
   demo: demoRouter,
   onboarding: onboardingRouter,
+  admin: adminRouter,
 });
 
 export type AppRouter = typeof appRouter;

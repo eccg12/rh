@@ -8,6 +8,9 @@ function Toaster(props: ToasterProps) {
     <Sonner
       theme="light"
       position="bottom-right"
+      // Acima do botão flutuante "Perguntar" (canto inferior direito).
+      offset={{ bottom: 84, right: 16 }}
+      mobileOffset={{ bottom: 76, right: 16, left: 16 }}
       closeButton
       toastOptions={{
         classNames: {

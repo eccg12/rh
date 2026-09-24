@@ -181,6 +181,16 @@ export function formatDays(days: number): string {
   return `${decimalFmt.format(rounded)} ${Math.abs(rounded) < 2 ? "dia" : "dias"}`;
 }
 
+/** Duração legível: "menos de 1 hora", "7 horas", "1,5 dia", "4,2 dias". */
+export function formatDuration(days: number): string {
+  if (days < 1 / 24) return "menos de 1 hora";
+  if (days < 1) {
+    const h = Math.round(days * 24);
+    return `${h} ${h === 1 ? "hora" : "horas"}`;
+  }
+  return formatDays(days);
+}
+
 /** "10 minutos", "1 hora", "1 hora e 15 minutos". */
 export function formatMinutes(total: number): string {
   const minutes = Math.max(0, Math.round(total));

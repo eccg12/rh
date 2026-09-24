@@ -222,3 +222,20 @@ cada uma com contexto e motivo.
 - **Decisão:** `contratos/modelos.json` inclui "Contrato de trabalho CLT — modelo em validação",
   marcado como exemplo.
 - **Por quê:** o fluxo CLT preparado (seção 7.3) roda de ponta a ponta sem inventar contrato real.
+
+### D-OB-37 — Caixa de saída entregue no CP3
+
+- **Contexto:** o aceite do CP3 ("cadastrar gera o e-mail de boas-vindas na caixa de saída") e o
+  roteiro da demo dependem da caixa de saída, prevista para o CP7 (Admin).
+- **Decisão:** a caixa de saída (`/admin/caixa-de-saida`) entrou no CP3, com filtros por regra e caso,
+  visualização do e-mail e o selo "Simulado". Os links absolutos (`APP_URL`) viram relativos na
+  visualização, para funcionar em qualquer porta ou host.
+- **Por quê:** o aceite do checkpoint fica verificável no próprio checkpoint.
+
+### D-OB-38 — Escala tipográfica registrada no tailwind-merge
+
+- **Contexto:** o teste no navegador mostrou botões pequenos sem texto e selos no tamanho errado: o
+  `tailwind-merge` tratava `text-meta` como cor e descartava `text-primary-foreground`.
+- **Decisão:** `cn()` usa `extendTailwindMerge` com a escala `meta`, `ui`, `read`, `section`, `page` e
+  `hero` (e a sombra `float`), com teste de regressão.
+- **Por quê:** a escala própria da seção 12.4 continua sendo a única, sem nomes genéricos (`text-sm`).

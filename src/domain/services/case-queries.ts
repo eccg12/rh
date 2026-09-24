@@ -220,11 +220,13 @@ function taskRow(t: TaskView, people: Map<string, Person>, view: CaseView) {
     actionLabel: t.def.actionLabel,
     availableAt: t.instance.availableAt,
     completedAt: t.instance.completedAt,
-    completedByName: t.instance.completedById
-      ? t.instance.completedById === AUTOMATION_ACTOR
-        ? "Automação"
-        : (people.get(t.instance.completedById)?.name ?? t.instance.completedById)
-      : undefined,
+    // Tarefa de quem entra concluída por uma ação do RH (ex.: documentos aprovados) não leva o nome do RH.
+    completedByName:
+      t.instance.completedById && !(t.def.owner === "new_joiner" && t.instance.completedById !== view.snapshot.person.id)
+        ? t.instance.completedById === AUTOMATION_ACTOR
+          ? "Automação"
+          : (people.get(t.instance.completedById)?.name ?? t.instance.completedById)
+        : undefined,
     detail,
   };
 }
@@ -250,6 +252,7 @@ export async function caseDetail(ctx: DomainContext, caseId: string) {
   const task = (id: string) => view.tasks.find((t) => t.def.id === id);
 
   return {
+    now: ctx.clock.nowIso(),
     case: {
       id: c.id,
       regime: c.regime,

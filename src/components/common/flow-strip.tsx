@@ -2,7 +2,7 @@
 
 import { TriangleAlert } from "lucide-react";
 
-import { formatDays } from "@/lib/dates";
+import { formatDuration } from "@/lib/dates";
 import { plural } from "@/lib/format";
 import { cn } from "@/lib/utils";
 
@@ -51,15 +51,15 @@ export function FlowStrip({
           ? "aguarda a data de início"
           : stage.avgDays === null
             ? "sem dados ainda"
-            : `${formatDays(stage.avgDays)} em média`;
+            : `${formatDuration(stage.avgDays)} em média`;
         return (
-          <li key={stage.id} className="flex shrink-0 items-stretch">
+          <li key={stage.id} className="flex min-w-[124px] flex-1 items-stretch">
             <button
               type="button"
               aria-pressed={selected}
               onClick={() => onSelect?.(selected ? null : stage.id)}
               className={cn(
-                "flex w-[132px] flex-col gap-2 rounded-lg border bg-surface p-3 text-left transition-colors hover:bg-tint focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink",
+                "flex w-full flex-col gap-2 rounded-lg border bg-surface p-3 text-left transition-colors hover:bg-tint focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink",
                 stage.isBottleneck ? "border-2 border-ink p-[11px]" : "border-rule",
                 selected && "bg-tint ring-2 ring-ink ring-offset-2 ring-offset-paper",
               )}
