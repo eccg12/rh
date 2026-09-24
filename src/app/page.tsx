@@ -1,10 +1,10 @@
-import { company } from "@/config/company";
+import { redirect } from "next/navigation";
 
-export default function HomePage() {
-  return (
-    <main className="mx-auto flex min-h-dvh max-w-[1200px] flex-col justify-center gap-3 px-4">
-      <h1 className="text-page font-semibold">{company.productName}</h1>
-      <p className="text-ink-soft">Fundação pronta. Os módulos chegam nos próximos checkpoints.</p>
-    </main>
-  );
+import { homePathFor } from "@/config/modules";
+import { getSession } from "@/server/session";
+
+/** `/` redireciona conforme a persona (seção 5). */
+export default async function HomePage() {
+  const session = await getSession();
+  redirect(homePathFor(session.viewRole));
 }

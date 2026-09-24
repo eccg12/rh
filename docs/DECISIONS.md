@@ -77,3 +77,60 @@ cada uma com contexto e motivo.
   `CLAUDE.md` segue o Apêndice A do plano, com uma referência ao `AGENTS.md`.
 - **Por quê:** o `CLAUDE.md` fica como o plano pede e a árvore de trabalho não muda sozinha ao rodar
   `pnpm dev`.
+
+### D-OB-20 — Dados fictícios que nunca coincidem com pessoas reais
+
+- **Contexto:** o plano pede new joiners fictícios, com CPF e CNPJ de teste sempre mascarados.
+- **Decisão:** e-mails dos new joiners usam o domínio reservado `.example` (RFC 2606); CPFs e CNPJs do
+  seed têm dígito verificador propositalmente inválido (um teste garante isso). A equipe usa
+  `nome@exemplo.monoda`, domínio marcado para validar em `company.ts`.
+- **Por quê:** um documento com dígito inválido não pode pertencer a ninguém, e a Fase 0 só valida
+  formato (o dígito verificador entra na Fase 1).
+
+### D-OB-21 — Condição de liberação `stage_done`
+
+- **Contexto:** o check-in do primeiro dia libera quando "etapas 3 a 6 estão concluídas", e as tarefas
+  dessas etapas variam por regime (CLT tem envio à contabilidade) e por `needsNotebook`.
+- **Decisão:** `UnlockCondition` ganhou `{ type: 'stage_done', stageId }`, além de `task_done`, `event`
+  e `date_reached`.
+- **Por quê:** a condição continua sendo dado e não precisa listar tarefa por tarefa de cada regime.
+
+### D-OB-22 — Ator `sistema` para fatos derivados
+
+- **Contexto:** o contador de ações automáticas usa `actorId: 'automacao'`. Eventos derivados como
+  `documents.all_submitted` ou `stage.completed` não são ações, são fatos.
+- **Decisão:** ações da plataforma (e-mail enviado, tarefa liberada, evidência registrada, reindexação)
+  usam `automacao`; eventos derivados levam o ator do evento que os causou; eventos sem pessoa
+  (virada de dia do relógio) usam `sistema`.
+- **Por quê:** o indicador "ações automáticas" conta só o trabalho que saiu do colo do RH.
+
+### D-OB-23 — Tempo por etapa e gargalo
+
+- **Contexto:** a faixa de fluxo mostra o tempo médio por etapa e marca o gargalo. A etapa "Primeiro
+  dia" espera a data de início por definição, então seria sempre o "gargalo".
+- **Decisão:** tempo na etapa = da liberação da primeira tarefa da etapa até a sua conclusão (ou até
+  agora, se ainda aberta), em dias corridos com uma casa decimal. Etapas com `waitsForStartDate`
+  mostram "aguarda a data de início" e ficam fora do cálculo de gargalo. "Pessoas na etapa" conta os
+  casos em andamento pela etapa atual (primeira não concluída, na ordem do fluxo).
+- **Por quê:** o gargalo tem de apontar trabalho parado, não o calendário.
+
+### D-OB-24 — Tentativas extras de quiz liberadas pelo RH
+
+- **Contexto:** o quiz tem até 3 tentativas. Sem saída, quem esgota as tentativas trava o onboarding.
+- **Decisão:** o caso guarda `extraQuizAttempts`; o RH pode liberar uma nova tentativa na aba Jornada
+  do caso, e isso fica na auditoria.
+- **Por quê:** mantém a regra das 3 tentativas e dá um caminho humano para a exceção.
+
+### D-OB-25 — Imports só de tipo com `import type`
+
+- **Contexto:** com `verbatimModuleSyntax`, `import { type X } from "m"` vira `import "m"` no bundle.
+  O teste no navegador mostrou o `@trpc/server` (e o roteador do servidor) indo para o cliente.
+- **Decisão:** ESLint exige `import type` (`consistent-type-imports` com `separate-type-imports` e
+  `no-import-type-side-effects`).
+- **Por quê:** evita vazar código de servidor para o navegador.
+
+### D-OB-26 — `pnpm typecheck` gera os tipos de rota antes do `tsc`
+
+- **Contexto:** páginas usam o helper global `PageProps<'/rota/[param]'>`, gerado pelo Next.js.
+- **Decisão:** o script é `next typegen && tsc --noEmit`.
+- **Por quê:** o typecheck funciona num clone limpo, sem depender de um build anterior.
