@@ -40,13 +40,13 @@ export function FirstDayStage({ data }: { data: FirstDayData }) {
   const c = data.checkin;
 
   return (
-    <div className="grid gap-10">
-      <section aria-labelledby="agenda" className="grid gap-3">
+    <div className="grid grid-cols-1 gap-10">
+      <section aria-labelledby="agenda" className="grid grid-cols-1 gap-3">
         <SectionHeader id="agenda" title={data.agenda.title} as="h2" description={`${formatWeekdayDate(data.case.startDate)}. ${data.agenda.intro}`} />
         {data.agenda.isExample ? <ExampleContentNotice /> : null}
         <ol className="divide-y divide-rule border-y border-rule">
           {data.agenda.items.map((item) => (
-            <li key={item.time + item.title} className="grid gap-1 py-3 sm:grid-cols-[80px_1fr]">
+            <li key={item.time + item.title} className="grid grid-cols-1 gap-1 py-3 sm:grid-cols-[80px_1fr]">
               <span className="font-semibold tabular-nums">{item.time}</span>
               <span className="flex flex-col">
                 <span className="font-medium">{item.title}</span>
@@ -66,9 +66,9 @@ export function FirstDayStage({ data }: { data: FirstDayData }) {
         ) : null}
       </section>
 
-      <section aria-labelledby="quem" className="grid gap-3">
+      <section aria-labelledby="quem" className="grid grid-cols-1 gap-3">
         <SectionHeader id="quem" title="Quem é quem" as="h2" description="Com quem falar sobre cada assunto." />
-        <div className="grid gap-3 sm:grid-cols-2">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
           {data.directory.map((d) => (
             <Card key={d.personId} className="flex-row items-start gap-3 p-4">
               <PersonAvatar name={d.name} size="lg" />
@@ -87,9 +87,9 @@ export function FirstDayStage({ data }: { data: FirstDayData }) {
         </div>
       </section>
 
-      <section aria-labelledby="links" className="grid gap-3">
+      <section aria-labelledby="links" className="grid grid-cols-1 gap-3">
         <SectionHeader id="links" title="Links úteis" as="h2" />
-        <ul className="grid gap-2">
+        <ul className="grid grid-cols-1 gap-2">
           {data.usefulLinks.map((l) => (
             <li key={l.id}>
               <a href={l.url} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 underline underline-offset-4">
@@ -101,9 +101,9 @@ export function FirstDayStage({ data }: { data: FirstDayData }) {
         </ul>
       </section>
 
-      <section aria-labelledby="perguntas" className="grid gap-3">
+      <section aria-labelledby="perguntas" className="grid grid-cols-1 gap-3">
         <SectionHeader id="perguntas" title="Pergunte ao assistente" as="h2" />
-        <ul className="grid gap-2">
+        <ul className="grid grid-cols-1 gap-2">
           {data.agenda.suggestedQuestions.map((q) => (
             <li key={q}>
               <Link href={`/assistente?q=${encodeURIComponent(q)}`} className="inline-flex items-center gap-2 underline underline-offset-4">
@@ -115,7 +115,7 @@ export function FirstDayStage({ data }: { data: FirstDayData }) {
         </ul>
       </section>
 
-      <section aria-labelledby="checkin" className="grid gap-3 rounded-lg border border-rule bg-surface p-5">
+      <section aria-labelledby="checkin" className="grid grid-cols-1 gap-3 rounded-lg border border-rule bg-surface p-5">
         <h2 id="checkin" className="text-section font-semibold">
           Check-in
         </h2>

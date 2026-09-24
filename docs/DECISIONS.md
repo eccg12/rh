@@ -415,3 +415,33 @@ cada uma com contexto e motivo.
   id da regra) e sistema (a virada do dia). O CSV usa os mesmos filtros da tela, com datas no fuso de
   São Paulo, separador ponto e vírgula e BOM, como o CSV de evidências.
 - **Por quê:** o RH separa o que fez do que a plataforma fez sozinha, que é a promessa do produto.
+
+### D-OB-56 — Regras de layout para 360 px
+
+- **Contexto:** a revisão do CP8 em 360 e 390 px achou rolagem horizontal em quatro telas, todas pela
+  mesma família de causa: coluna implícita de grid crescendo até o conteúdo que não quebra (nome de
+  arquivo, nome de modelo de contrato), `fieldset` com largura mínima do conteúdo e texto só para
+  leitor de tela (`sr-only`, posição absoluta) escapando de um contêiner com rolagem própria.
+- **Decisão:** toda grade tem coluna explícita na base (`grid-cols-1`, que é `minmax(0, 1fr)`),
+  todo `fieldset` tem `min-w-0`, todo contêiner com `overflow-x-auto` é `relative` e o valor do
+  `Select` trunca com reticências. As regras estão em `docs/DESIGN.md` (seção 5).
+- **Por quê:** as telas do new joiner são usadas no celular; a regra evita a classe inteira de erro,
+  não só os quatro casos.
+
+### D-OB-57 — Senha da demo e imagem de produção
+
+- **Contexto:** a seção 13 pede Dockerfile e middleware opcional de senha (Basic Auth).
+- **Decisão:** `src/proxy.ts` (nome do middleware no Next.js 16) pede a senha em todas as páginas
+  quando `DEMO_PASSWORD` existe, com comparação em tempo constante; arquivos estáticos do build e a
+  marca ficam de fora. O Dockerfile usa o build standalone em Node 22 Alpine, roda como usuário sem
+  privilégio na porta 8080 e copia `content/` e `public/` para a imagem.
+- **Por quê:** a mesma imagem roda local ou no Cloud Run (Apêndice C), e a senha liga ou desliga só
+  com a variável, sem novo build.
+
+### D-OB-58 — Confirmação de restauração em diálogo
+
+- **Contexto:** o painel Demo usava a confirmação nativa do navegador para restaurar os dados.
+- **Decisão:** o painel Demo e o Admin usam o mesmo diálogo "Restaurar os dados iniciais?", com
+  **Voltar** e **Restaurar dados iniciais**.
+- **Por quê:** a confirmação nativa foge do design, não segue o foco do painel e não pode ser
+  estilizada nem traduzida pelo produto.

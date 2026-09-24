@@ -21,7 +21,7 @@ export default async function AdminHome() {
         title="Admin"
         description="Configurações da plataforma. Na Fase 0, tudo fica em memória e volta ao início ao restaurar os dados."
       />
-      <ul className="grid gap-x-8 sm:grid-cols-2">
+      <ul className="grid grid-cols-1 gap-x-8 sm:grid-cols-2">
         {sections.map((s) => (
           <li key={s.id} className="border-b border-rule">
             <Link

@@ -40,6 +40,7 @@ function UploadZone({
   maxSizeMb,
   disabled,
   label,
+  documentName,
   onFile,
 }: {
   inputId: string;
@@ -47,6 +48,8 @@ function UploadZone({
   maxSizeMb: number;
   disabled?: boolean;
   label: string;
+  /** Nome do documento, para leitores de tela ("Enviar arquivo: RG ou CNH"). */
+  documentName: string;
   onFile: (file: File) => void;
 }) {
   const [over, setOver] = useState(false);
@@ -71,10 +74,13 @@ function UploadZone({
         disabled && "opacity-60",
       )}
     >
+      {/* O botão abre o seletor; o campo fica fora da ordem de tabulação para não haver dois focos. */}
       <input
         ref={inputRef}
         id={inputId}
         type="file"
+        tabIndex={-1}
+        aria-label={`${label}: ${documentName}`}
         accept={[...accept, extensions].join(",")}
         className="sr-only"
         disabled={disabled}
@@ -84,7 +90,14 @@ function UploadZone({
           e.target.value = "";
         }}
       />
-      <Button type="button" size="sm" variant="outline" disabled={disabled} onClick={() => inputRef.current?.click()}>
+      <Button
+        type="button"
+        size="sm"
+        variant="outline"
+        disabled={disabled}
+        aria-label={`${label}: ${documentName}`}
+        onClick={() => inputRef.current?.click()}
+      >
         <Upload aria-hidden />
         {label}
       </Button>
@@ -118,7 +131,7 @@ function DocumentCard({ item, canSubmit }: { item: DocItem; canSubmit: boolean }
   };
 
   return (
-    <Card className="gap-3">
+    <Card className="min-w-0 gap-3">
       <div className="flex flex-wrap items-start justify-between gap-2">
         <div className="flex min-w-0 flex-col gap-1">
           <h3 className="font-semibold leading-snug">{item.title}</h3>
@@ -146,6 +159,7 @@ function DocumentCard({ item, canSubmit }: { item: DocItem; canSubmit: boolean }
       {canUpload ? (
         <UploadZone
           inputId={`doc-${item.requirementId}`}
+          documentName={item.title}
           accept={item.accept}
           maxSizeMb={item.maxSizeMb}
           disabled={submit.isPending}
@@ -178,7 +192,7 @@ export function DocumentsSection({ data }: { data: DocsData }) {
   const items = [...docs.items].sort((a, b) => order[a.level] - order[b.level]);
 
   return (
-    <div className="grid gap-4">
+    <div className="grid grid-cols-1 gap-4">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <p className="tabular-nums">
           <strong className="font-semibold">
@@ -192,7 +206,7 @@ export function DocumentsSection({ data }: { data: DocsData }) {
           </DemoShortcut>
         ) : null}
       </div>
-      <div className="grid gap-4">
+      <div className="grid grid-cols-1 gap-4">
         {items.map((item) => (
           <DocumentCard key={item.requirementId} item={item} canSubmit={docs.canSubmit} />
         ))}
@@ -216,7 +230,7 @@ export function ExamSection({ data }: { data: DocsData }) {
   if (!exam) return null;
   const accept = ["application/pdf", "image/jpeg", "image/png"];
   return (
-    <section aria-labelledby="exame" className="grid gap-3">
+    <section aria-labelledby="exame" className="grid min-w-0 grid-cols-1 gap-3">
       <h2 id="exame" className="text-section font-semibold">
         Exame admissional
       </h2>
@@ -235,6 +249,7 @@ export function ExamSection({ data }: { data: DocsData }) {
       ) : exam.asoStatus === "disponivel" ? (
         <UploadZone
           inputId="doc-aso"
+          documentName="Atestado de saúde ocupacional (ASO)"
           accept={accept}
           maxSizeMb={10}
           disabled={submit.isPending}

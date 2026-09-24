@@ -25,7 +25,7 @@ export function ModuleTabs({ role }: { role: ViewRole }) {
   }, [pathname]);
 
   return (
-    <ul ref={listRef} className="-mx-4 flex gap-1 overflow-x-auto px-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+    <ul ref={listRef} className="relative -mx-4 flex gap-1 overflow-x-auto px-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
       {items.map((m) => {
         const active = pathname === m.href || pathname.startsWith(`${m.href}/`);
         const statusLabel = moduleStatusLabel[m.status];

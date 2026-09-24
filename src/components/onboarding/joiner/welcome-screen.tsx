@@ -46,7 +46,7 @@ export function WelcomeScreen({ journey }: { journey: Journey }) {
             Reunimos aqui tudo o que precisa acontecer até lá: sua ficha, os documentos, o contrato, o treinamento de compliance e o que
             você precisa para o primeiro dia. Você faz a sua parte no seu ritmo; o resto é com a gente.
           </p>
-          <dl className="grid gap-4 border-y border-rule py-5 sm:grid-cols-3">
+          <dl className="grid grid-cols-1 gap-4 border-y border-rule py-5 sm:grid-cols-3">
             <div className="flex flex-col gap-0.5">
               <dt className="text-meta text-ink-soft">Etapas</dt>
               <dd className="text-section font-semibold tabular-nums">{journey.totalStages}</dd>

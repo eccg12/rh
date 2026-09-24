@@ -48,7 +48,7 @@ export function CaseEquipmentTab({ data }: { data: CaseDetail }) {
   const blockedNote = "Liberado depois da assinatura do contrato.";
 
   return (
-    <div className="grid max-w-[820px] gap-10">
+    <div className="grid grid-cols-1 max-w-[820px] gap-10">
       <section>
         <SectionHeader title="E-mail corporativo" as="h3" />
         {eq.corporateEmail ? (
@@ -59,7 +59,7 @@ export function CaseEquipmentTab({ data }: { data: CaseDetail }) {
           </p>
         ) : open(eq.emailTask) ? (
           <div className="flex flex-wrap items-end gap-3">
-            <div className="grid min-w-64 flex-1 gap-2">
+            <div className="grid grid-cols-1 min-w-64 flex-1 gap-2">
               <Label htmlFor="email-corporativo">Endereço (Google Workspace)</Label>
               <Input id="email-corporativo" value={email} onChange={(e) => setEmail(e.target.value)} />
             </div>
@@ -78,7 +78,7 @@ export function CaseEquipmentTab({ data }: { data: CaseDetail }) {
         {!data.case.needsNotebook ? (
           <p className="text-ink-soft">Esta pessoa não precisa de notebook da Monoda.</p>
         ) : eq.notebook ? (
-          <div className="grid gap-1">
+          <div className="grid grid-cols-1 gap-1">
             <p className="flex flex-wrap items-center gap-2">
               <Laptop aria-hidden className="size-4" />
               <span className="font-medium">{eq.notebook.assetTag}</span>
@@ -96,7 +96,7 @@ export function CaseEquipmentTab({ data }: { data: CaseDetail }) {
             <p className="text-stop">Não há notebook disponível no inventário. Cadastre um em Equipamentos e acessos.</p>
           ) : (
             <div className="flex flex-wrap items-end gap-3">
-              <div className="grid min-w-64 flex-1 gap-2">
+              <div className="grid grid-cols-1 min-w-64 flex-1 gap-2">
                 <Label htmlFor="notebook">Notebook disponível</Label>
                 <Select value={notebookId} onValueChange={setNotebookId}>
                   <SelectTrigger id="notebook">

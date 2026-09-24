@@ -39,7 +39,7 @@ export function TeamWeekPanel() {
           {plural(data.totals.submitted, "semana enviada", "semanas enviadas")} de {data.rows.length}. Dados simulados.
         </p>
       </div>
-      <div className="overflow-x-auto rounded-lg border border-rule bg-surface">
+      <div className="relative overflow-x-auto rounded-lg border border-rule bg-surface">
         <table className="w-full min-w-[720px] text-ui tabular-nums">
           <caption className="sr-only">Horas por pessoa e projeto na semana</caption>
           <thead>

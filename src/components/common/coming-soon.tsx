@@ -26,7 +26,7 @@ export function ComingSoon({
         </div>
         <div className="max-w-[68ch] text-ink-soft">{description}</div>
       </div>
-      <ul className="grid gap-x-8 gap-y-4 sm:grid-cols-2">
+      <ul className="grid grid-cols-1 gap-x-8 gap-y-4 sm:grid-cols-2">
         {items.map((item) => (
           <li key={item.title} className="flex flex-col gap-1 border-t border-rule pt-3">
             <span className="font-medium">{item.title}</span>

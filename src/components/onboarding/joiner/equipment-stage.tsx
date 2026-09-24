@@ -37,8 +37,8 @@ export function EquipmentStage({ data }: { data: EquipmentData }) {
   const granted = data.accesses.filter((a) => a.status === "liberado").length;
 
   return (
-    <div className="grid gap-10">
-      <section aria-labelledby="email" className="grid gap-2">
+    <div className="grid grid-cols-1 gap-10">
+      <section aria-labelledby="email" className="grid grid-cols-1 gap-2">
         <SectionHeader id="email" title="E-mail corporativo" as="h2" />
         {data.corporateEmail.value ? (
           <p className="flex flex-wrap items-center gap-2">
@@ -52,7 +52,7 @@ export function EquipmentStage({ data }: { data: EquipmentData }) {
       </section>
 
       {data.needsNotebook ? (
-        <section aria-labelledby="notebook" className="grid gap-3">
+        <section aria-labelledby="notebook" className="grid grid-cols-1 gap-3">
           <SectionHeader id="notebook" title="Notebook" as="h2" />
           {nb ? (
             <>
@@ -78,7 +78,7 @@ export function EquipmentStage({ data }: { data: EquipmentData }) {
         </section>
       ) : null}
 
-      <section aria-labelledby="acessos" className="grid gap-3">
+      <section aria-labelledby="acessos" className="grid grid-cols-1 gap-3">
         <SectionHeader
           id="acessos"
           title="Acessos"

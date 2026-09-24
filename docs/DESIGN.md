@@ -78,6 +78,10 @@ Números tabulares (`tabular-nums`) em indicadores, datas, horas e tabelas.
 - Ícones lucide de 16 a 20 px, traço 1,75.
 - Cabeçalho em duas faixas: marca e controles em cima; abas embaixo, sublinhadas. No celular, a faixa
   de abas rola na horizontal com a aba ativa centralizada, e o seletor de persona vai para o menu.
+- Nada rola na horizontal em 360 px (D-OB-56). Toda grade tem coluna explícita na base
+  (`grid-cols-1`); todo `fieldset` tem `min-w-0`; tabelas largas ficam num contêiner `relative
+  overflow-x-auto`, que rola sozinho; textos que não quebram (nome de arquivo, valor de `Select`)
+  truncam com reticências.
 
 ## 6. Peças-assinatura
 

@@ -19,7 +19,7 @@ const ALL = "__todos__";
 function EmailPreview({ email }: { email: OutboxItem }) {
   return (
     <article className="flex flex-col gap-3">
-      <dl className="grid gap-1 text-meta">
+      <dl className="grid grid-cols-1 gap-1 text-meta">
         <div className="flex gap-2">
           <dt className="w-16 shrink-0 text-ink-soft">Para</dt>
           <dd>
@@ -80,14 +80,14 @@ export function OutboxView() {
         Simulado — nenhum e-mail real foi enviado
       </p>
       <div className="flex flex-wrap items-end gap-3">
-        <div className="grid min-w-0 flex-1 basis-56 gap-1.5">
+        <div className="grid grid-cols-1 min-w-0 flex-1 basis-56 gap-1.5">
           <Label htmlFor="busca-email">Buscar</Label>
           <div className="relative">
             <Search aria-hidden className="pointer-events-none absolute top-3 left-3 size-4 text-ink-soft" />
             <Input id="busca-email" className="pl-9" placeholder="Destinatário ou assunto" value={query} onChange={(e) => setQuery(e.target.value)} />
           </div>
         </div>
-        <div className="grid gap-1.5">
+        <div className="grid grid-cols-1 gap-1.5">
           <Label htmlFor="filtro-regra">Regra</Label>
           <Select value={rule} onValueChange={setRule}>
             <SelectTrigger id="filtro-regra" className="w-56 max-w-full">
@@ -103,7 +103,7 @@ export function OutboxView() {
             </SelectContent>
           </Select>
         </div>
-        <div className="grid gap-1.5">
+        <div className="grid grid-cols-1 gap-1.5">
           <Label htmlFor="filtro-caso">Caso</Label>
           <Select value={person} onValueChange={setPerson}>
             <SelectTrigger id="filtro-caso" className="w-56 max-w-full">

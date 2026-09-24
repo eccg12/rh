@@ -4,6 +4,7 @@ import { Plus, Trash2 } from "lucide-react";
 import { useId, useState } from "react";
 import { toast } from "sonner";
 
+import { ExampleContentNotice } from "@/components/common/example-content-notice";
 import { SectionHeader } from "@/components/shell/page-header";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -71,7 +72,7 @@ function VideoForm({ video }: { video: Compliance["video"] }) {
       <Field id={ids.url} label="Endereço do vídeo" hint="Trocar o endereço cria uma versão nova do vídeo. Sem endereço, a jornada mostra o vídeo como em produção.">
         <Input id={ids.url} type="url" value={url} placeholder="https://" onChange={(e) => setUrl(e.target.value)} aria-describedby={`${ids.url}-ajuda`} />
       </Field>
-      <fieldset className="flex flex-col gap-1.5">
+      <fieldset className="min-w-0 flex flex-col gap-1.5">
         <legend className="mb-1.5 text-ui font-medium">Duração</legend>
         <div className="flex items-center gap-2">
           <Input id={ids.min} inputMode="numeric" value={minutes} onChange={(e) => setMinutes(e.target.value.replace(/\D/g, ""))} className="w-20" aria-label="Minutos" />
@@ -123,7 +124,7 @@ function QuestionEditor({
       <Field id={`${base}-p`} label="Enunciado">
         <Textarea id={`${base}-p`} rows={2} value={question.prompt} onChange={(e) => onChange({ ...question, prompt: e.target.value })} />
       </Field>
-      <fieldset className="flex flex-col gap-2">
+      <fieldset className="min-w-0 flex flex-col gap-2">
         <legend className="mb-1 text-ui font-medium">Opções (marque a correta)</legend>
         <RadioGroup
           value={String(question.correctIndex)}
@@ -214,7 +215,7 @@ function QuizForm({ quiz }: { quiz: Compliance["quiz"] }) {
       <Field id={ids.title} label="Título">
         <Input id={ids.title} value={title} onChange={(e) => setTitle(e.target.value)} />
       </Field>
-      <div className="grid gap-5 sm:grid-cols-2">
+      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
         <Field id={ids.score} label="Nota mínima (%)">
           <Input id={ids.score} inputMode="numeric" value={passingScore} onChange={(e) => setPassingScore(e.target.value.replace(/\D/g, ""))} className="w-28" />
         </Field>
@@ -266,10 +267,12 @@ export function ComplianceAdminView() {
       </p>
       <section aria-labelledby="video" className="flex flex-col gap-4">
         <SectionHeader id="video" title="Vídeo" description={`Versão ${data.video.version}.`} />
+        {data.video.isExample ? <ExampleContentNotice /> : null}
         <VideoForm key={`v${data.video.version}`} video={data.video} />
       </section>
       <section aria-labelledby="quiz" className="flex flex-col gap-4">
         <SectionHeader id="quiz" title="Quiz" description={`Versão ${data.quiz.version}, ${data.quiz.questions.length} perguntas.`} />
+        {data.quiz.isExample ? <ExampleContentNotice /> : null}
         <QuizForm key={`q${data.quiz.version}`} quiz={data.quiz} />
       </section>
     </div>

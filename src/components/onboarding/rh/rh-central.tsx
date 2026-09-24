@@ -79,7 +79,7 @@ export function RhCentral() {
         <FlowStrip stages={data.stages} selectedId={stageFilter} onSelect={setStageFilter} />
       </section>
 
-      <div className="mb-10 grid gap-10 lg:grid-cols-[minmax(0,1fr)_340px]">
+      <div className="mb-10 grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,1fr)_340px]">
         <section aria-labelledby="pendencias">
           <SectionHeader id="pendencias" title={`Depende de você (${data.pending.length})`} description="Só o que precisa de decisão humana, do mais antigo para o mais novo." />
           {data.pending.length === 0 ? (

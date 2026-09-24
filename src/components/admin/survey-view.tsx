@@ -47,7 +47,7 @@ export function SurveyView() {
                 <Badge variant="secondary">Nota {r.nps}</Badge>
               </span>
             </div>
-            <dl className="grid gap-x-3 gap-y-1 sm:grid-cols-[auto_minmax(0,1fr)]">
+            <dl className="grid grid-cols-1 gap-x-3 gap-y-1 sm:grid-cols-[auto_minmax(0,1fr)]">
               <dt className="text-meta text-ink-soft">O que faltou</dt>
               <dd>{r.missing || <span className="text-ink-soft">Sem comentário</span>}</dd>
               <dt className="text-meta text-ink-soft">O que foi confuso</dt>

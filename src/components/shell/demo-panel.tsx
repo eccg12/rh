@@ -7,6 +7,7 @@ import { toast } from "sonner";
 
 import { PersonAvatar } from "@/components/common/person-chip";
 import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { api } from "@/trpc/react";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { formatWeekdayDate } from "@/lib/dates";
@@ -23,6 +24,7 @@ export function DemoPanel({ todayKey }: { todayKey: string }) {
   const router = useRouter();
   const utils = api.useUtils();
   const [open, setOpen] = useState(false);
+  const [confirming, setConfirming] = useState(false);
   const refresh = async () => {
     await utils.invalidate();
     router.refresh();
@@ -37,6 +39,7 @@ export function DemoPanel({ todayKey }: { todayKey: string }) {
   const reset = api.demo.reset.useMutation({
     onSuccess: async () => {
       await refresh();
+      setConfirming(false);
       setOpen(false);
       toast.success("Dados iniciais restaurados");
     },
@@ -98,19 +101,28 @@ export function DemoPanel({ todayKey }: { todayKey: string }) {
           <section className="flex flex-col gap-2">
             <h3 className="text-meta font-semibold text-ink-soft">Dados</h3>
             <p className="text-meta text-ink-soft">Volta ao seed: casos, e-mails e configurações do início da demo.</p>
-            <Button
-              variant="outline"
-              className="w-fit"
-              disabled={reset.isPending}
-              onClick={() => {
-                if (window.confirm("Restaurar os dados iniciais? Tudo o que foi feito nesta sessão será apagado.")) reset.mutate();
-              }}
-            >
+            <Button variant="outline" className="w-fit" disabled={reset.isPending} onClick={() => setConfirming(true)}>
               <RotateCcw aria-hidden />
-              {reset.isPending ? "Restaurando…" : "Restaurar dados iniciais"}
+              Restaurar dados iniciais
             </Button>
           </section>
         </div>
+        <Dialog open={confirming} onOpenChange={setConfirming}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Restaurar os dados iniciais?</DialogTitle>
+              <DialogDescription>Tudo o que foi feito nesta sessão da demo será apagado.</DialogDescription>
+            </DialogHeader>
+            <DialogFooter>
+              <Button variant="outline" onClick={() => setConfirming(false)}>
+                Voltar
+              </Button>
+              <Button disabled={reset.isPending} onClick={() => reset.mutate()}>
+                {reset.isPending ? "Restaurando…" : "Restaurar dados iniciais"}
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </SheetContent>
     </Sheet>
   );

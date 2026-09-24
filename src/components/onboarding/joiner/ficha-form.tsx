@@ -85,7 +85,7 @@ function FieldInput({ field, control, name, error }: { field: FieldDef; control:
         const value = rhf.value;
         if (field.type === "checkbox") {
           return (
-            <div className="grid gap-1.5 sm:col-span-2">
+            <div className="grid grid-cols-1 gap-1.5 sm:col-span-2">
               <div className="flex items-start gap-2.5">
                 <Checkbox
                   id={id}
@@ -106,7 +106,7 @@ function FieldInput({ field, control, name, error }: { field: FieldDef; control:
         }
         if (field.type === "radio") {
           return (
-            <div className="grid gap-2 sm:col-span-2">
+            <div className="grid grid-cols-1 gap-2 sm:col-span-2">
               <span id={`${id}-rotulo`} className="text-meta font-medium">
                 {field.label}
               </span>
@@ -130,7 +130,7 @@ function FieldInput({ field, control, name, error }: { field: FieldDef; control:
         }
         if (field.type === "select") {
           return (
-            <div className="grid gap-1.5">
+            <div className="grid grid-cols-1 gap-1.5">
               {label}
               <Select value={typeof value === "string" ? value : ""} onValueChange={rhf.onChange}>
                 <SelectTrigger id={id} aria-invalid={!!error} aria-describedby={described}>
@@ -151,7 +151,7 @@ function FieldInput({ field, control, name, error }: { field: FieldDef; control:
         }
         if (field.type === "textarea") {
           return (
-            <div className="grid gap-1.5 sm:col-span-2">
+            <div className="grid grid-cols-1 gap-1.5 sm:col-span-2">
               {label}
               <Textarea id={id} value={typeof value === "string" ? value : ""} onChange={rhf.onChange} onBlur={rhf.onBlur} aria-invalid={!!error} aria-describedby={described} />
               {help}
@@ -161,7 +161,7 @@ function FieldInput({ field, control, name, error }: { field: FieldDef; control:
         }
         const mask = MASK[field.type];
         return (
-          <div className="grid gap-1.5">
+          <div className="grid grid-cols-1 gap-1.5">
             {label}
             <Input
               id={id}
@@ -188,10 +188,10 @@ function Repeater({ field, control, error }: { field: FieldDef; control: Control
   const { fields, append, remove } = useFieldArray({ control, name: field.id as never });
   const blank = Object.fromEntries((field.fields ?? []).map((f) => [f.id, ""]));
   return (
-    <div className="grid gap-3 sm:col-span-2">
+    <div className="grid grid-cols-1 gap-3 sm:col-span-2">
       {fields.length === 0 ? <p className="text-ink-soft">Nenhum dependente adicionado.</p> : null}
       {fields.map((item, index) => (
-        <fieldset key={item.id} className="grid gap-4 rounded-lg border border-rule bg-surface p-4 sm:grid-cols-2">
+        <fieldset key={item.id} className="grid grid-cols-1 gap-4 rounded-lg border border-rule bg-surface p-4 sm:grid-cols-2">
           <legend className="px-1 text-meta font-semibold">Dependente {index + 1}</legend>
           {(field.fields ?? []).map((sub) => (
             <FieldInput key={sub.id} field={sub} control={control} name={`${field.id}.${index}.${sub.id}`} />
@@ -270,7 +270,7 @@ export function FichaForm({
   const errorOf = (id: string) => (form.formState.errors[id]?.message as string | undefined) ?? undefined;
 
   return (
-    <form onSubmit={onSubmit} noValidate className="grid gap-8">
+    <form onSubmit={onSubmit} noValidate className="grid grid-cols-1 gap-8">
       <div className="flex flex-wrap items-center gap-3">
         <DemoShortcut onClick={() => void fillExample()}>Preencher com dados de exemplo</DemoShortcut>
         <span className="flex items-center gap-1.5 text-meta text-ink-soft" aria-live="polite">
@@ -281,7 +281,7 @@ export function FichaForm({
       {schema.note ? <p className="rounded-md border border-dashed border-control px-3 py-2 text-meta text-ink-soft">{schema.note}</p> : null}
 
       {schema.sections.map((section) => (
-        <fieldset key={section.id} className="grid gap-4">
+        <fieldset key={section.id} className="grid grid-cols-1 gap-4">
           <legend className="mb-1 text-section font-semibold">{section.title}</legend>
           {section.description ? <p className="-mt-2 text-ink-soft">{section.description}</p> : null}
           {section.id === "privacidade" && privacyNotice ? (
@@ -301,7 +301,7 @@ export function FichaForm({
               </DialogContent>
             </Dialog>
           ) : null}
-          <div className="grid gap-4 sm:grid-cols-2">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             {section.fields
               .filter((f) => isFieldVisible(f, values))
               .map((f) =>

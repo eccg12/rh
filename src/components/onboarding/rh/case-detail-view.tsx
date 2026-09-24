@@ -62,7 +62,7 @@ export function CaseDetailView({ caseId }: { caseId: string }) {
         <ChevronLeft aria-hidden className="size-4" />
         Onboarding
       </Link>
-      <header className="mb-6 grid gap-4">
+      <header className="mb-6 grid grid-cols-1 gap-4">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div className="flex flex-col gap-1.5">
             <h1 className="text-page font-semibold">{p.name}</h1>
@@ -81,7 +81,7 @@ export function CaseDetailView({ caseId }: { caseId: string }) {
             </Button>
           ) : null}
         </div>
-        <dl className="grid gap-x-8 gap-y-2 sm:grid-cols-2 lg:grid-cols-3">
+        <dl className="grid grid-cols-1 gap-x-8 gap-y-2 sm:grid-cols-2 lg:grid-cols-3">
           {facts.map(([k, v]) => (
             <div key={k} className="flex flex-col">
               <dt className="text-meta text-ink-soft">{k}</dt>

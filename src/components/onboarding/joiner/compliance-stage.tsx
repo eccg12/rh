@@ -64,7 +64,7 @@ function VideoStep({ data }: { data: ComplianceData }) {
   };
 
   return (
-    <section aria-labelledby="video" className="grid gap-3">
+    <section aria-labelledby="video" className="grid grid-cols-1 gap-3">
       <SectionHeader id="video" title="1. Vídeo" as="h2" description={`${v.title}, ${formatMinutes(Math.ceil(v.durationSec / 60))}.`} />
       {v.watched ? (
         <p className="flex items-center gap-2">
@@ -84,7 +84,7 @@ function VideoStep({ data }: { data: ComplianceData }) {
           }}
         />
       ) : embed ? (
-        <div className="grid gap-3">
+        <div className="grid grid-cols-1 gap-3">
           <iframe
             title={v.title}
             src={embed}
@@ -139,7 +139,7 @@ function QuizStep({ data }: { data: ComplianceData }) {
 
   if (result) {
     return (
-      <section aria-labelledby="quiz" className="grid gap-4">
+      <section aria-labelledby="quiz" className="grid grid-cols-1 gap-4">
         <SectionHeader id="quiz" title="2. Quiz" as="h2" />
         <Card className={cn("gap-2", result.passed ? "border-ok/50" : "border-stop/40")}>
           <p className="flex items-center gap-2 text-section font-semibold">
@@ -151,9 +151,9 @@ function QuizStep({ data }: { data: ComplianceData }) {
             {!result.passed ? ` Restam ${result.attemptsLeft} ${result.attemptsLeft === 1 ? "tentativa" : "tentativas"}.` : ""}
           </p>
         </Card>
-        <ol className="grid gap-3">
+        <ol className="grid grid-cols-1 gap-3">
           {result.questions.map((qq, i) => (
-            <li key={qq.id} className="grid gap-1 border-b border-rule pb-3">
+            <li key={qq.id} className="grid grid-cols-1 gap-1 border-b border-rule pb-3">
               <p className="font-medium">
                 {i + 1}. {qq.prompt}
               </p>
@@ -184,7 +184,7 @@ function QuizStep({ data }: { data: ComplianceData }) {
 
   if (q.passed) {
     return (
-      <section aria-labelledby="quiz" className="grid gap-2">
+      <section aria-labelledby="quiz" className="grid grid-cols-1 gap-2">
         <SectionHeader id="quiz" title="2. Quiz" as="h2" />
         <p className="flex items-center gap-2">
           <StatusBadge kind="task" status="concluida" label="Aprovado" /> Nota {q.lastScore}%.
@@ -195,7 +195,7 @@ function QuizStep({ data }: { data: ComplianceData }) {
 
   const question = q.questions[index];
   return (
-    <section aria-labelledby="quiz" className="grid gap-4">
+    <section aria-labelledby="quiz" className="grid grid-cols-1 gap-4">
       <SectionHeader
         id="quiz"
         title="2. Quiz"
@@ -212,13 +212,13 @@ function QuizStep({ data }: { data: ComplianceData }) {
         </Button>
       ) : question ? (
         <Card className="gap-4">
-          <div className="grid gap-2">
+          <div className="grid grid-cols-1 gap-2">
             <p className="text-meta text-ink-soft tabular-nums">
               Pergunta {index + 1} de {q.questions.length}
             </p>
             <Progress value={((index + 1) / q.questions.length) * 100} aria-hidden />
           </div>
-          <fieldset className="grid gap-3">
+          <fieldset className="min-w-0 grid grid-cols-1 gap-3">
             <legend className="mb-2 text-read font-medium">{question.prompt}</legend>
             <RadioGroup
               value={answers[index] === null ? "" : String(answers[index])}
@@ -269,7 +269,7 @@ function ConductStep({ data }: { data: ComplianceData }) {
   if (!c) return null;
   const open = c.taskStatus === "disponivel";
   return (
-    <section aria-labelledby="conduta" className="grid gap-3">
+    <section aria-labelledby="conduta" className="grid grid-cols-1 gap-3">
       <SectionHeader id="conduta" title={`3. ${c.title}`} as="h2" description={`Versão ${c.version}. ${c.summary}`} />
       {c.acknowledged ? (
         <StatusBadge kind="ack" status="aceita" />
@@ -300,14 +300,14 @@ function CertificateStep({ data }: { data: ComplianceData }) {
   const cert = data.certificate;
   if (!cert) return null;
   return (
-    <section aria-labelledby="comprovante" className="grid gap-3">
+    <section aria-labelledby="comprovante" className="grid grid-cols-1 gap-3">
       <SectionHeader id="comprovante" title="Comprovante de treinamento" as="h2" />
       <Card className="gap-3 print:border-0">
         <p className="flex items-center gap-2 text-section font-semibold">
           <BadgeCheck aria-hidden className="size-5 text-ok" />
           Treinamento de compliance concluído
         </p>
-        <dl className="grid gap-x-8 gap-y-1 sm:grid-cols-2">
+        <dl className="grid grid-cols-1 gap-x-8 gap-y-1 sm:grid-cols-2">
           <div>
             <dt className="text-meta text-ink-soft">Participante</dt>
             <dd className="font-medium">{data.person.name}</dd>
@@ -338,7 +338,7 @@ function CertificateStep({ data }: { data: ComplianceData }) {
 
 export function ComplianceStage({ data }: { data: ComplianceData }) {
   return (
-    <div className="grid gap-10">
+    <div className="grid grid-cols-1 gap-10">
       <VideoStep data={data} />
       <QuizStep data={data} />
       <ConductStep data={data} />

@@ -17,7 +17,7 @@ export function TimelineList({
   return (
     <ol className={cn("flex flex-col", className)}>
       {entries.map((e) => (
-        <li key={e.id} className="grid gap-x-4 gap-y-0.5 border-b border-rule py-2.5 last:border-b-0 sm:grid-cols-[132px_1fr]">
+        <li key={e.id} className="grid grid-cols-1 gap-x-4 gap-y-0.5 border-b border-rule py-2.5 last:border-b-0 sm:grid-cols-[132px_1fr]">
           <time dateTime={e.at} className="text-meta text-ink-soft tabular-nums">
             {formatDateTime(e.at)}
           </time>

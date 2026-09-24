@@ -44,7 +44,7 @@ export function FlowStrip({
   className?: string;
 }) {
   return (
-    <ol aria-label="Etapas do fluxo de onboarding" className={cn("-mx-4 flex overflow-x-auto px-4 pt-1 pb-3 sm:mx-0 sm:px-0", className)}>
+    <ol aria-label="Etapas do fluxo de onboarding" className={cn("relative -mx-4 flex overflow-x-auto px-4 pt-1 pb-3 sm:mx-0 sm:px-0", className)}>
       {stages.map((stage, i) => {
         const selected = selectedId === stage.id;
         const time = stage.waitsForStartDate

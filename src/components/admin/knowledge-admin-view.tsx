@@ -90,7 +90,7 @@ function ArticleSheet({ draft, team, onClose }: { draft: Draft; team: Knowledge[
       <Field id={ids.title} label="Título" hint="Escreva como a pessoa perguntaria ou procuraria." error={errors.title}>
         <Input id={ids.title} value={d.title} onChange={(e) => set("title", e.target.value)} aria-invalid={!!errors.title} />
       </Field>
-      <div className="grid gap-5 sm:grid-cols-2">
+      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
         <Field id={ids.category} label="Categoria">
           <Select value={d.category} onValueChange={(v) => set("category", v as KbCategory)}>
             <SelectTrigger id={ids.category} className="w-full">

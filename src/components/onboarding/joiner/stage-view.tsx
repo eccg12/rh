@@ -22,11 +22,11 @@ export function StageView({ stageId }: { stageId: StageId }) {
   return (
     <StageFrame data={data}>
       {data.kind === "cadastro-documentos" ? (
-        <div className="grid gap-12">
-          <section id="ficha" aria-labelledby="ficha-titulo" className="grid gap-4 scroll-mt-32">
+        <div className="grid grid-cols-1 gap-12">
+          <section id="ficha" aria-labelledby="ficha-titulo" className="grid min-w-0 grid-cols-1 gap-4 scroll-mt-32">
             <SectionHeader id="ficha-titulo" title="Ficha cadastral" as="h2" description="Uns 10 minutos. Seus dados ficam só com o RH." />
             {data.form.summary ? (
-              <div className="grid gap-4">
+              <div className="grid grid-cols-1 gap-4">
                 <p className="flex flex-wrap items-center gap-2">
                   <StatusBadge kind="task" status="concluida" label="Ficha enviada" />
                   <span className="text-meta text-ink-soft">{data.form.submittedAt ? formatDateTime(data.form.submittedAt) : ""}</span>
@@ -37,9 +37,9 @@ export function StageView({ stageId }: { stageId: StageId }) {
                     .filter((f) => !f.items)
                     .slice(0, 12)
                     .map((f) => (
-                      <div key={f.path} className="grid gap-1 py-2 sm:grid-cols-[220px_1fr]">
+                      <div key={f.path} className="grid grid-cols-1 gap-1 py-2 sm:grid-cols-[220px_minmax(0,1fr)]">
                         <dt className="text-meta text-ink-soft">{f.label}</dt>
-                        <dd>{f.display}</dd>
+                        <dd className="min-w-0 break-words">{f.display}</dd>
                       </div>
                     ))}
                 </dl>
@@ -55,7 +55,7 @@ export function StageView({ stageId }: { stageId: StageId }) {
               />
             ) : null}
           </section>
-          <section id="documentos" aria-labelledby="documentos-titulo" className="grid gap-4 scroll-mt-32">
+          <section id="documentos" aria-labelledby="documentos-titulo" className="grid min-w-0 grid-cols-1 gap-4 scroll-mt-32">
             <SectionHeader id="documentos-titulo" title="Documentos" as="h2" description="PDF, JPG ou PNG de até 10 MB. O RH revisa cada um." />
             <DocumentsSection data={data} />
           </section>

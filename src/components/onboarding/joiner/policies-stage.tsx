@@ -66,14 +66,14 @@ export function PoliciesStage({ data }: { data: PoliciesData }) {
   });
   const b = data.benefits;
   return (
-    <div className="grid gap-10">
-      <section aria-labelledby="politicas" className="grid gap-4">
+    <div className="grid grid-cols-1 gap-10">
+      <section aria-labelledby="politicas" className="grid grid-cols-1 gap-4">
         <SectionHeader id="politicas" title="Políticas" as="h2" description="Leia o resumo, abra o texto completo se quiser e registre o seu aceite." />
         {data.policies.map((p) => (
           <PolicyCard key={p.id} p={p} />
         ))}
       </section>
-      <section aria-labelledby="beneficios" className="grid gap-4">
+      <section aria-labelledby="beneficios" className="grid grid-cols-1 gap-4">
         <SectionHeader id="beneficios" title="Benefícios" as="h2" />
         {b.plans.length === 0 ? <p className="text-ink-soft">Nenhum benefício ativo para o seu regime.</p> : null}
         {b.plans.map((plan) => (

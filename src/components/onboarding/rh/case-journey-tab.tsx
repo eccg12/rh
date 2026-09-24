@@ -47,12 +47,12 @@ function ExamDialog({ caseId, today }: { caseId: string; today: string }) {
             <DialogTitle>Agendar exame admissional</DialogTitle>
             <DialogDescription>Depois do agendamento, o envio do ASO é liberado para a pessoa.</DialogDescription>
           </DialogHeader>
-          <div className="grid gap-4">
-            <div className="grid gap-2">
+          <div className="grid grid-cols-1 gap-4">
+            <div className="grid grid-cols-1 gap-2">
               <Label htmlFor="exame-data">Data do exame</Label>
               <Input id="exame-data" type="date" min={today} value={date} onChange={(e) => setDate(e.target.value)} />
             </div>
-            <div className="grid gap-2">
+            <div className="grid grid-cols-1 gap-2">
               <Label htmlFor="exame-clinica">Clínica</Label>
               <Input id="exame-clinica" value={clinic} onChange={(e) => setClinic(e.target.value)} placeholder="Nome e endereço da clínica" />
             </div>
@@ -92,7 +92,7 @@ export function CaseJourneyTab({ data, onOpenTab }: { data: CaseDetail; onOpenTa
   return (
     <ol className="flex flex-col gap-8">
       {data.stages.map((stage, index) => (
-        <li key={stage.id} className="grid gap-3">
+        <li key={stage.id} className="grid grid-cols-1 gap-3">
           <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
             <h3 className="text-section font-semibold">
               <span className="sr-only">Etapa {index + 1}: </span>

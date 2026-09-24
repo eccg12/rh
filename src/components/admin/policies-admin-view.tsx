@@ -5,6 +5,7 @@ import { useId, useState } from "react";
 import { toast } from "sonner";
 import { z } from "zod";
 
+import { ExampleContentNotice } from "@/components/common/example-content-notice";
 import { StatusBadge } from "@/components/common/status-badge";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -106,6 +107,7 @@ export function PoliciesAdminView({ today }: { today: string }) {
                 Versão {p.version}, vigente desde {formatDate(p.effectiveFrom)}. {p.requiresAck ? "Pede aceite." : "Só leitura."}
               </p>
               {p.changelog ? <p className="text-meta">Última mudança: {p.changelog}</p> : null}
+              {p.isExample ? <ExampleContentNotice className="mt-1" /> : null}
             </div>
             <div className="flex shrink-0 flex-row flex-wrap items-center gap-2 sm:flex-col sm:items-end">
               {p.requiresAck ? (

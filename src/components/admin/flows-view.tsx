@@ -37,7 +37,7 @@ function Flow({ flow }: { flow: FlowDescription }) {
             </div>
             <ul className="flex flex-col divide-y divide-rule border-t border-rule">
               {stage.tasks.map((t) => (
-                <li key={t.id} className="grid gap-1 py-2.5 sm:grid-cols-[minmax(0,1fr)_160px] sm:gap-4">
+                <li key={t.id} className="grid grid-cols-1 gap-1 py-2.5 sm:grid-cols-[minmax(0,1fr)_160px] sm:gap-4">
                   <div className="flex min-w-0 flex-col gap-0.5">
                     <span className="flex flex-wrap items-center gap-2">
                       <span className="font-medium">{t.title}</span>

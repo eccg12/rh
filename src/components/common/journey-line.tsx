@@ -189,7 +189,7 @@ export function JourneyLine({
       <ol
         ref={stepperRef}
         aria-label={label}
-        className="flex snap-x overflow-x-auto pt-2 pb-3 md:hidden"
+        className="relative flex snap-x overflow-x-auto pt-2 pb-3 md:hidden"
       >
         {stations.map((s, i) => (
           <li

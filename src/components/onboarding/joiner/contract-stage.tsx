@@ -49,7 +49,7 @@ export function ContractStage({ data }: { data: ContractData }) {
           <BadgeCheck aria-hidden className="size-5 text-ok" />
           Contrato assinado
         </p>
-        <dl className="grid gap-x-8 gap-y-1 sm:grid-cols-2">
+        <dl className="grid grid-cols-1 gap-x-8 gap-y-1 sm:grid-cols-2">
           <div>
             <dt className="text-meta text-ink-soft">Documento</dt>
             <dd className="font-medium">{c.name}</dd>
@@ -80,7 +80,7 @@ export function ContractStage({ data }: { data: ContractData }) {
   }
 
   return (
-    <div className="grid gap-4">
+    <div className="grid grid-cols-1 gap-4">
       <p className="flex flex-wrap items-center gap-2">
         <StatusBadge kind="contract" status="enviado" /> Enviado em {c.sentAt ? formatDateTime(c.sentAt) : "—"}.
       </p>
@@ -93,7 +93,7 @@ export function ContractStage({ data }: { data: ContractData }) {
           </div>
         </div>
         {c.isExample ? <ExampleContentNotice text="Modelo de exemplo — substituir pelo contrato oficial" /> : null}
-        <div className="grid h-56 place-items-center rounded-md border border-dashed border-rule bg-paper px-6 text-center text-meta text-ink-soft">
+        <div className="grid grid-cols-1 h-56 place-items-center rounded-md border border-dashed border-rule bg-paper px-6 text-center text-meta text-ink-soft">
           Pré-visualização do contrato. Na Fase 0, o documento é um marcador: a assinatura eletrônica real entra na Fase 2.
         </div>
         <div className="flex items-start gap-2.5">
@@ -118,7 +118,7 @@ export function ContractStage({ data }: { data: ContractData }) {
             <DialogTitle>Pedir ajuste no contrato</DialogTitle>
             <DialogDescription>O contrato volta para o RH com a sua observação.</DialogDescription>
           </DialogHeader>
-          <div className="grid gap-2">
+          <div className="grid grid-cols-1 gap-2">
             <Label htmlFor="ajuste">O que precisa mudar?</Label>
             <Textarea id="ajuste" value={reason} onChange={(e) => setReason(e.target.value)} maxLength={500} />
           </div>

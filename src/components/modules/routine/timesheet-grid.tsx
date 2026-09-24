@@ -142,7 +142,7 @@ function TimesheetEditor({ data, onNavigate, busy }: { data: WeekView; onNavigat
         </span>
       </div>
 
-      <div className="overflow-x-auto rounded-lg border border-rule bg-surface">
+      <div className="relative overflow-x-auto rounded-lg border border-rule bg-surface">
         <table className="w-full min-w-[640px] text-ui tabular-nums">
           <caption className="sr-only">Horas por projeto e dia da semana</caption>
           <thead>

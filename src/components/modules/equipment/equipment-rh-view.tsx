@@ -135,7 +135,7 @@ function RegisterDialog({ models }: { models: string[] }) {
             </datalist>
             <FieldError id={`${ids.model}-erro`} message={errors.model} />
           </div>
-          <div className="grid gap-4 sm:grid-cols-2">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div className="flex flex-col gap-1.5">
               <Label htmlFor={ids.serial}>Número de série</Label>
               <Input

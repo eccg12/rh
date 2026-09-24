@@ -41,10 +41,10 @@ export function CaseContractTab({ data }: { data: CaseDetail }) {
   ];
 
   return (
-    <div className="grid max-w-[720px] gap-6">
+    <div className="grid grid-cols-1 max-w-[720px] gap-6">
       <dl className="divide-y divide-rule border-y border-rule">
         {rows.map(([k, v]) => (
-          <div key={k} className="grid gap-1 py-2.5 sm:grid-cols-[200px_1fr]">
+          <div key={k} className="grid grid-cols-1 gap-1 py-2.5 sm:grid-cols-[200px_1fr]">
             <dt className="text-meta font-medium text-ink-soft">{k}</dt>
             <dd>{v}</dd>
           </div>
@@ -57,7 +57,7 @@ export function CaseContractTab({ data }: { data: CaseDetail }) {
       ) : null}
 
       {contract.canSend ? (
-        <section className="grid gap-4 rounded-lg border border-rule bg-surface p-5">
+        <section className="grid grid-cols-1 gap-4 rounded-lg border border-rule bg-surface p-5">
           <h3 className="font-semibold">Preparar e enviar</h3>
           <RadioGroup value={mode} onValueChange={(v) => setMode(v as typeof mode)} className="flex flex-wrap gap-6" aria-label="Tipo de contrato">
             <label className="flex items-center gap-2">
@@ -68,7 +68,7 @@ export function CaseContractTab({ data }: { data: CaseDetail }) {
             </label>
           </RadioGroup>
           {mode === "modelo" ? (
-            <div className="grid gap-2">
+            <div className="grid grid-cols-1 gap-2">
               <Label htmlFor="modelo">Modelo</Label>
               <Select value={templateId} onValueChange={setTemplateId}>
                 <SelectTrigger id="modelo">
@@ -84,7 +84,7 @@ export function CaseContractTab({ data }: { data: CaseDetail }) {
               </Select>
             </div>
           ) : (
-            <div className="grid gap-2">
+            <div className="grid grid-cols-1 gap-2">
               <Label htmlFor="arquivo-contrato">Contrato customizado</Label>
               <label className="flex w-fit cursor-pointer items-center gap-2 rounded-md border border-control px-3 py-2 hover:bg-tint focus-within:outline-2 focus-within:outline-ink">
                 <Paperclip aria-hidden className="size-4" />

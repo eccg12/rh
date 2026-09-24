@@ -9,7 +9,7 @@ import { formatDateTime } from "@/lib/dates";
 
 export function CaseEvidenceTab({ data }: { data: CaseDetail }) {
   return (
-    <div className="grid gap-4">
+    <div className="grid grid-cols-1 gap-4">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <p className="max-w-[64ch] text-ink-soft">
           Quiz com versões, aceites de políticas, termo do notebook e assinatura do contrato. Datas no fuso de São Paulo.

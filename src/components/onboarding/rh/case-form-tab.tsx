@@ -61,7 +61,7 @@ export function CaseFormTab({ data }: { data: CaseDetail }) {
     );
   }
   return (
-    <div className="grid gap-8">
+    <div className="grid grid-cols-1 gap-8">
       <p className="text-meta text-ink-soft">
         Enviada em {data.form.submittedAt ? formatDateTime(data.form.submittedAt) : "—"}. Dados sensíveis aparecem mascarados; ver o valor completo
         registra o acesso na auditoria.
@@ -72,14 +72,14 @@ export function CaseFormTab({ data }: { data: CaseDetail }) {
           <dl className="divide-y divide-rule border-y border-rule">
             {section.fields.map((f) =>
               f.items ? (
-                <div key={f.id} className="grid gap-2 py-2.5 sm:grid-cols-[220px_1fr]">
+                <div key={f.id} className="grid grid-cols-1 gap-2 py-2.5 sm:grid-cols-[220px_1fr]">
                   <dt className="text-meta font-medium text-ink-soft">{f.label}</dt>
-                  <dd className="grid gap-3">
+                  <dd className="grid grid-cols-1 gap-3">
                     {f.items.length === 0 ? "Nenhum" : null}
                     {f.items.map((item) => (
-                      <dl key={item.index} className="grid gap-1 rounded-md border border-rule p-3">
+                      <dl key={item.index} className="grid grid-cols-1 gap-1 rounded-md border border-rule p-3">
                         {item.fields.map((sub) => (
-                          <div key={sub.path} className="grid gap-1 sm:grid-cols-[160px_1fr]">
+                          <div key={sub.path} className="grid grid-cols-1 gap-1 sm:grid-cols-[160px_1fr]">
                             <dt className="text-meta text-ink-soft">{sub.label}</dt>
                             <dd>
                               <FieldValue caseId={data.case.id} field={sub} />
@@ -91,7 +91,7 @@ export function CaseFormTab({ data }: { data: CaseDetail }) {
                   </dd>
                 </div>
               ) : (
-                <div key={f.id} className="grid gap-1 py-2.5 sm:grid-cols-[220px_1fr]">
+                <div key={f.id} className="grid grid-cols-1 gap-1 py-2.5 sm:grid-cols-[220px_1fr]">
                   <dt className="text-meta font-medium text-ink-soft">{f.label}</dt>
                   <dd>
                     <FieldValue caseId={data.case.id} field={f} />

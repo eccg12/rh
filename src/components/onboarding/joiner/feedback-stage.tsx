@@ -42,9 +42,9 @@ export function FeedbackStage({ data }: { data: FeedbackData }) {
             : ""}{" "}
           Obrigado pela resposta. Ela vai direto para o RH e melhora a entrada de quem vem depois.
         </p>
-        <div className="grid gap-2">
+        <div className="grid grid-cols-1 gap-2">
           <h2 className="font-semibold">O que você fez</h2>
-          <ul className="grid gap-1.5 sm:grid-cols-2">
+          <ul className="grid grid-cols-1 gap-1.5 sm:grid-cols-2">
             {data.summary.tasksDone.map((t) => (
               <li key={t} className="flex items-start gap-2">
                 <Check aria-hidden className="mt-1 size-4 shrink-0 text-ok" strokeWidth={2.5} />
@@ -63,14 +63,14 @@ export function FeedbackStage({ data }: { data: FeedbackData }) {
 
   return (
     <form
-      className="grid gap-6"
+      className="grid grid-cols-1 gap-6"
       onSubmit={(e) => {
         e.preventDefault();
         if (nps === null) return toast.error("Escolha uma nota de 0 a 10.");
         submit.mutate({ nps, missing: missing || undefined, confusing: confusing || undefined });
       }}
     >
-      <fieldset className="grid gap-3">
+      <fieldset className="min-w-0 grid grid-cols-1 gap-3">
         <legend className="mb-2 font-medium">De 0 a 10, quanto você recomendaria o onboarding da Monoda a quem vai entrar?</legend>
         <div role="radiogroup" aria-label="Nota de 0 a 10" className="flex flex-wrap gap-1.5">
           {Array.from({ length: 11 }, (_, n) => (
@@ -94,11 +94,11 @@ export function FeedbackStage({ data }: { data: FeedbackData }) {
           <span>10 = com certeza</span>
         </p>
       </fieldset>
-      <div className="grid gap-2">
+      <div className="grid grid-cols-1 gap-2">
         <Label htmlFor="faltou">O que faltou?</Label>
         <Textarea id="faltou" value={missing} onChange={(e) => setMissing(e.target.value)} maxLength={1000} />
       </div>
-      <div className="grid gap-2">
+      <div className="grid grid-cols-1 gap-2">
         <Label htmlFor="confuso">O que foi confuso?</Label>
         <Textarea id="confuso" value={confusing} onChange={(e) => setConfusing(e.target.value)} maxLength={1000} />
       </div>

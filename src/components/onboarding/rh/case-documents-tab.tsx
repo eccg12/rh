@@ -52,7 +52,7 @@ function RejectDialog({ doc, title, reasons, open, onOpenChange }: { doc: Docume
           ))}
         </RadioGroup>
         {reason === "Outro" ? (
-          <div className="grid gap-2">
+          <div className="grid grid-cols-1 gap-2">
             <Label htmlFor="motivo-outro">Descreva o motivo</Label>
             <Textarea id="motivo-outro" value={other} onChange={(e) => setOther(e.target.value)} maxLength={300} />
           </div>
@@ -91,7 +91,7 @@ function SubmissionBlock({ doc, now }: { doc: DocumentSubmission; now: string })
         </span>
         <span className="text-meta text-ink-soft">Prévia indisponível: na Fase 0 o upload guarda só os dados do arquivo.</span>
         {doc.autoCheck ? (
-          <ul className="mt-1 grid gap-1 text-meta" aria-label="Checagem automática">
+          <ul className="mt-1 grid grid-cols-1 gap-1 text-meta" aria-label="Checagem automática">
             {doc.autoCheck.notes.map((n) => (
               <li key={n} className="flex items-start gap-1.5">
                 {doc.autoCheck?.formatOk && doc.autoCheck.sizeOk ? (
@@ -126,7 +126,7 @@ export function CaseDocumentsTab({ data }: { data: CaseDetail }) {
   });
 
   return (
-    <div className="grid gap-5">
+    <div className="grid grid-cols-1 gap-5">
       <p className="tabular-nums">
         <strong className="font-semibold">
           {s.requiredApproved} de {s.required}
@@ -134,7 +134,7 @@ export function CaseDocumentsTab({ data }: { data: CaseDetail }) {
         obrigatórios aprovados. {s.pendingReview > 0 ? `${s.pendingReview} para revisar. ` : ""}
         {s.rejected > 0 ? `${s.rejected} aguardando reenvio.` : ""}
       </p>
-      <div className="grid gap-4 lg:grid-cols-2">
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
         {items.map((item) => (
           <Card key={item.requirementId} className="gap-3">
             <div className="flex flex-wrap items-start justify-between gap-2">
@@ -178,7 +178,7 @@ export function CaseDocumentsTab({ data }: { data: CaseDetail }) {
             {item.history.length > 0 ? (
               <details className="text-meta">
                 <summary className="cursor-pointer text-ink-soft">Envios anteriores ({item.history.length})</summary>
-                <ul className="mt-2 grid gap-1">
+                <ul className="mt-2 grid grid-cols-1 gap-1">
                   {item.history.map((h) => (
                     <li key={h.id}>
                       {h.fileName}, {formatDateTime(h.submittedAt)}

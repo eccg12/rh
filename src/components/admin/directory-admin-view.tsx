@@ -77,9 +77,9 @@ function EntrySheet({ draft, onClose }: { draft: Draft; onClose: () => void }) {
       <Field id={ids.topics} label="Temas" hint="Um por linha, do jeito que a pessoa explicaria." error={errors.topics}>
         <Textarea id={ids.topics} rows={5} value={d.topics} onChange={(e) => setD({ ...d, topics: e.target.value })} aria-invalid={!!errors.topics} />
       </Field>
-      <fieldset className="flex flex-col gap-2">
+      <fieldset className="min-w-0 flex flex-col gap-2">
         <legend className="mb-1 text-ui font-medium">Categorias da base que a pessoa responde</legend>
-        <div className="grid gap-2 sm:grid-cols-2">
+        <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
           {KB_CATEGORY_ORDER.map((c) => {
             const id = `${ids.cats}-${c}`;
             return (

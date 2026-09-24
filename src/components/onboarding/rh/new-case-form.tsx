@@ -26,7 +26,7 @@ const JOB_TITLES = ["Analista", "Consultor(a)", "Consultor(a) sênior", "Gerente
 
 function Block({ step, title, description, children }: { step: number; title: string; description?: string; children: React.ReactNode }) {
   return (
-    <fieldset className="grid gap-5 border-t border-rule pt-6 first:border-t-0 first:pt-0">
+    <fieldset className="grid min-w-0 grid-cols-1 gap-5 border-t border-rule pt-6 first:border-t-0 first:pt-0">
       <legend className="sr-only">{title}</legend>
       <SectionHeader title={`${step}. ${title}`} description={description} className="mb-0" />
       {children}
@@ -94,11 +94,11 @@ export function NewCaseForm() {
       ["Contrato", values.contractMode === "customizado" ? "Contrato customizado (anexo depois)" : (template?.name ?? "—")],
     ];
     return (
-      <section aria-labelledby="revisao" className="grid max-w-[720px] gap-6">
+      <section aria-labelledby="revisao" className="grid grid-cols-1 max-w-[720px] gap-6">
         <SectionHeader id="revisao" title="Revise o cadastro" description="Ao cadastrar, a plataforma envia as boas-vindas e libera a ficha e os documentos." className="mb-0" />
         <dl className="divide-y divide-rule border-y border-rule">
           {rows.map(([k, v]) => (
-            <div key={k} className="grid gap-1 py-2.5 sm:grid-cols-[180px_1fr]">
+            <div key={k} className="grid grid-cols-1 gap-1 py-2.5 sm:grid-cols-[180px_1fr]">
               <dt className="text-meta font-medium text-ink-soft">{k}</dt>
               <dd>{v}</dd>
             </div>
@@ -120,7 +120,7 @@ export function NewCaseForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={onReview} className="grid max-w-[720px] gap-8" noValidate>
+      <form onSubmit={onReview} className="grid grid-cols-1 max-w-[720px] gap-8" noValidate>
         <Block step={1} title="Pessoa">
           <FormField
             control={form.control}
@@ -135,7 +135,7 @@ export function NewCaseForm() {
               </FormItem>
             )}
           />
-          <div className="grid gap-5 sm:grid-cols-2">
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
             <FormField
               control={form.control}
               name="personalEmail"
@@ -202,7 +202,7 @@ export function NewCaseForm() {
               </FormItem>
             )}
           />
-          <div className="grid gap-5 sm:grid-cols-2">
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
             <FormField
               control={form.control}
               name="jobTitle"
@@ -315,7 +315,7 @@ export function NewCaseForm() {
               <FormItem>
                 <FormLabel>Contrato</FormLabel>
                 <FormControl>
-                  <RadioGroup value={field.value} onValueChange={field.onChange} className="grid gap-3">
+                  <RadioGroup value={field.value} onValueChange={field.onChange} className="grid grid-cols-1 gap-3">
                     <label className="flex items-center gap-2">
                       <RadioGroupItem value="modelo" /> Usar modelo
                     </label>

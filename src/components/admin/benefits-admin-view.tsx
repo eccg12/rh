@@ -89,7 +89,7 @@ function ChangeSheet({ today, onClose }: { today: string; onClose: () => void })
           </SelectContent>
         </Select>
       </Field>
-      <div className="grid gap-5 sm:grid-cols-2">
+      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
         <Field id={ids.provider} label="Novo provedor" error={errors.providerName}>
           <Input id={ids.provider} value={providerName} onChange={(e) => setProviderName(e.target.value)} aria-invalid={!!errors.providerName} />
         </Field>
@@ -97,7 +97,7 @@ function ChangeSheet({ today, onClose }: { today: string; onClose: () => void })
           <Input id={ids.date} type="date" value={validFrom} onChange={(e) => setValidFrom(e.target.value)} />
         </Field>
       </div>
-      <fieldset className="flex flex-col gap-2">
+      <fieldset className="min-w-0 flex flex-col gap-2">
         <legend className="mb-1.5 text-ui font-medium">Elegível para</legend>
         <div className="flex gap-6">
           {REGIMES.map((r) => {
