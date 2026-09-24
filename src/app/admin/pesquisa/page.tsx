@@ -1,13 +1,22 @@
+import { Suspense } from "react";
+
 import { AdminPage } from "@/components/admin/admin-page";
-import { ShellNotice } from "@/components/common/shell-notice";
+import { SurveyView } from "@/components/admin/survey-view";
+import { PageSkeleton } from "@/components/common/page-skeleton";
 import { adminSection } from "@/config/admin-sections";
+import { api, HydrateClient } from "@/trpc/server";
 
 export const metadata = { title: adminSection("pesquisa").title };
 
-export default async function AdminPesquisaPage() {
+export default async function AdminSurveyPage() {
+  void api.admin.survey.prefetch();
   return (
     <AdminPage section="pesquisa">
-      <ShellNotice title="Área em preparação" />
+      <HydrateClient>
+        <Suspense fallback={<PageSkeleton rows={6} />}>
+          <SurveyView />
+        </Suspense>
+      </HydrateClient>
     </AdminPage>
   );
 }

@@ -77,7 +77,7 @@ describe("equipamentos", () => {
     await expect(
       registerEquipment(ctx, { assetTag: "MON-NB-007", type: "notebook", model: "Notebook 14", serial: "SN-X-2" }, RH),
     ).rejects.toBeInstanceOf(DomainError);
-    expect(await auditOf(ctx, "equipment.registered")).toHaveLength(1);
+    expect(await auditOf(ctx, "equipment.created")).toHaveLength(1);
   });
 
   it("colaborador recebe notebook e aceita o termo em Meus equipamentos", async () => {

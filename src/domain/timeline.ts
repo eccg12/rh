@@ -3,6 +3,7 @@
  * ("avisos automáticos", não "webhooks").
  */
 import { requirementById } from "@/config/documents";
+import { formatDate } from "@/lib/dates";
 import { firstName } from "@/lib/format";
 
 import { eventLabel } from "./events";
@@ -134,6 +135,17 @@ export function describeAudit(e: AuditEvent, people: Map<string, Person>): Timel
       break;
     case "quiz.extra_attempt":
       title = "Nova tentativa de quiz liberada pelo RH";
+      break;
+    case "equipment.created":
+      title = `Equipamento cadastrado: ${String(p.assetTag ?? "")}`;
+      detail = str(p.model);
+      break;
+    case "timesheet.submitted":
+      title = `Semana de horas enviada${p.weekStart ? `: semana de ${formatDate(String(p.weekStart))}` : ""}`;
+      detail = typeof p.total === "number" ? `${p.total.toLocaleString("pt-BR")} horas` : undefined;
+      break;
+    case "demo.reset":
+      title = "Dados iniciais restaurados";
       break;
   }
 

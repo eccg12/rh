@@ -375,3 +375,43 @@ cada uma com contexto e motivo.
   de não encontrado aparece normalmente, com status 200.
 - **Por quê:** para um portal interno com login, o retorno visual pesa mais que o status HTTP; se a
   Fase 1 precisar de 404 real, basta mover o carregamento para cada página.
+
+### D-OB-52 — Edição no Admin em painel lateral, com a mesma validação do servidor
+
+- **Contexto:** a seção 9.10 pede edição de políticas, benefícios, artigos, "Quem é quem" e
+  compliance, sem definir a forma.
+- **Decisão:** cada edição abre um painel lateral com os campos e os botões fixos no rodapé. A tela
+  valida com os mesmos schemas Zod do router (`src/domain/inputs.ts`) e mostra o erro no campo; o
+  servidor valida de novo. Cada salvamento dá um toast que diz o efeito ("O assistente já responde
+  com o texto novo", "Quem já tinha aceitado recebe o aviso"). O interruptor das regras muda na hora
+  e o dado do servidor confirma em seguida.
+- **Por quê:** a lista continua visível atrás do painel, e as mensagens de erro são as mesmas em
+  qualquer camada.
+
+### D-OB-53 — Nova versão de política vale para todos que já tinham aceitado
+
+- **Contexto:** a publicação dispara A18 (re-aceite). Quem está no meio do onboarding e já aceitou a
+  versão anterior na jornada também precisa ver a mudança.
+- **Decisão:** o re-aceite fica pendente para todas as pessoas que aceitaram uma versão anterior,
+  inclusive new joiners; a tarefa da jornada continua concluída (não volta a travar o fluxo) e a
+  política aparece como "Nova versão para aceitar" na aba Políticas e benefícios.
+- **Por quê:** o aceite registrado sempre corresponde a um texto; ninguém fica com a versão velha sem
+  saber.
+
+### D-OB-54 — Lacuna vira artigo com categoria sugerida
+
+- **Contexto:** "Criar artigo a partir desta pergunta" (seção 9.10) precisa de uma categoria.
+- **Decisão:** o formulário já vem com a pergunta como título, a pessoa para quem a dúvida foi
+  encaminhada como responsável e, como categoria, a única categoria dessa pessoa no "Quem é quem"
+  (ou "Geral", se ela responde por várias). Salvar resolve a lacuna e o assistente passa a responder
+  na hora (D-OB-43). Artigos novos nascem sem a marca de exemplo; benefícios novos nascem marcados
+  (o formulário deixa desmarcar).
+- **Por quê:** menos digitação no Admin e nenhuma resposta nova escondida atrás de um cache.
+
+### D-OB-55 — Origem dos eventos na auditoria
+
+- **Contexto:** a auditoria filtra por origem.
+- **Decisão:** três origens: manual (uma pessoa fez), automático (uma regra de automação fez, com o
+  id da regra) e sistema (a virada do dia). O CSV usa os mesmos filtros da tela, com datas no fuso de
+  São Paulo, separador ponto e vírgula e BOM, como o CSV de evidências.
+- **Por quê:** o RH separa o que fez do que a plataforma fez sozinha, que é a promessa do produto.

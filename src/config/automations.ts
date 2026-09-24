@@ -179,6 +179,7 @@ export const automationRules: AutomationRule[] = [
     on: "equipment.assigned",
     audience: "New joiner",
     // O termo do conteúdo é o do notebook; monitor ou headset não disparam o termo.
+    conditionLabel: "Só quando o equipamento é notebook",
     when: (ctx) => ctx.payload.type === "notebook",
     actions: [
       { type: "unlock_task", taskId: "notebook-termo" },

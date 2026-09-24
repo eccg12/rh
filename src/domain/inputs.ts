@@ -3,7 +3,7 @@
  */
 import { z } from "zod";
 
-import { DateOnlySchema, RegimeSchema } from "./schemas";
+import { DateOnlySchema, KbCategorySchema, RegimeSchema } from "./schemas";
 
 export const CreateCaseInputSchema = z
   .object({
@@ -114,3 +114,55 @@ export const ChangeBenefitInputSchema = z.object({
   videoUrl: z.string().trim().url("URL inválida.").optional().or(z.literal("")),
   eligibleRegimes: z.array(RegimeSchema).min(1, "Escolha pelo menos um regime."),
 });
+
+export const UpdateVideoInputSchema = z.object({
+  title: z.string().trim().min(3, "Escreva o título do vídeo.").max(120),
+  url: z.string().trim().url("URL inválida.").optional().or(z.literal("")),
+  durationSec: z.number().int().min(30, "O vídeo precisa ter pelo menos 30 segundos.").max(3 * 3600, "Vídeo longo demais."),
+  description: z.string().trim().max(600).optional(),
+});
+
+export const UpdateQuizInputSchema = z.object({
+  title: z.string().trim().min(3, "Escreva o título do quiz.").max(120),
+  passingScore: z.number().int().min(50, "A nota mínima precisa ser de pelo menos 50%.").max(100),
+  maxAttempts: z.number().int().min(1, "Pelo menos uma tentativa.").max(10),
+  questions: z
+    .array(
+      z.object({
+        id: z.string().min(1),
+        prompt: z.string().trim().min(5, "Escreva a pergunta."),
+        options: z.array(z.string().trim().min(1, "Há uma opção vazia.")).min(2, "Cada pergunta precisa de pelo menos duas opções.").max(6),
+        correctIndex: z.number().int().min(0),
+        explanation: z.string().trim().min(5, "Explique a resposta correta."),
+      }),
+    )
+    .min(1, "O quiz precisa de pelo menos uma pergunta.")
+    .max(20),
+  isExample: z.boolean(),
+});
+export type UpdateQuizInput = z.infer<typeof UpdateQuizInputSchema>;
+
+export const SaveArticleInputSchema = z.object({
+  id: z.string().optional(),
+  title: z.string().trim().min(5, "Escreva o título.").max(120),
+  category: KbCategorySchema,
+  summary: z.string().trim().min(10, "Escreva um resumo de uma ou duas frases.").max(300),
+  bodyMd: z.string().trim().min(20, "O texto do artigo está curto demais.").max(8000),
+  tags: z.array(z.string().trim().min(1)).max(20),
+  ownerPersonId: z.string().optional(),
+  isExample: z.boolean(),
+  fromGapId: z.string().optional(),
+});
+export type SaveArticleInput = z.infer<typeof SaveArticleInputSchema>;
+
+export const SaveDirectoryInputSchema = z.object({
+  personId: z.string().min(1),
+  topics: z.array(z.string().trim().min(2)).min(1, "Informe pelo menos um tema.").max(10),
+  categories: z.array(KbCategorySchema),
+  channel: z.string().trim().min(2, "Informe o canal de contato.").max(60),
+  toValidate: z.boolean(),
+});
+export type SaveDirectoryInput = z.infer<typeof SaveDirectoryInputSchema>;
+
+export type PublishPolicyInput = z.infer<typeof PublishPolicyInputSchema>;
+export type ChangeBenefitInput = z.infer<typeof ChangeBenefitInputSchema>;

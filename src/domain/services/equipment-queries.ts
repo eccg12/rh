@@ -209,7 +209,7 @@ export async function registerEquipment(ctx: DomainContext, input: NewEquipmentI
   };
   await ctx.repo.equipment.insert(item);
   await recordAudit(ctx, {
-    type: "equipment.registered",
+    type: "equipment.created",
     actorId,
     payload: { equipmentId: item.id, assetTag: item.assetTag, model: item.model, type: item.type },
   });

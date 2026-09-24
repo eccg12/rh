@@ -74,13 +74,13 @@ export function OutboxView() {
   const selected = emails.find((e) => e.id === selectedId) ?? null;
 
   return (
-    <div className="grid gap-5">
+    <div className="grid min-w-0 grid-cols-1 gap-5">
       <p className="flex w-fit items-center gap-2 rounded-md border border-dashed border-control bg-surface px-3 py-2 font-medium">
         <ShieldAlert aria-hidden className="size-4" />
         Simulado — nenhum e-mail real foi enviado
       </p>
       <div className="flex flex-wrap items-end gap-3">
-        <div className="grid min-w-56 flex-1 gap-1.5">
+        <div className="grid min-w-0 flex-1 basis-56 gap-1.5">
           <Label htmlFor="busca-email">Buscar</Label>
           <div className="relative">
             <Search aria-hidden className="pointer-events-none absolute top-3 left-3 size-4 text-ink-soft" />
@@ -90,7 +90,7 @@ export function OutboxView() {
         <div className="grid gap-1.5">
           <Label htmlFor="filtro-regra">Regra</Label>
           <Select value={rule} onValueChange={setRule}>
-            <SelectTrigger id="filtro-regra" className="w-56">
+            <SelectTrigger id="filtro-regra" className="w-56 max-w-full">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -106,7 +106,7 @@ export function OutboxView() {
         <div className="grid gap-1.5">
           <Label htmlFor="filtro-caso">Caso</Label>
           <Select value={person} onValueChange={setPerson}>
-            <SelectTrigger id="filtro-caso" className="w-56">
+            <SelectTrigger id="filtro-caso" className="w-56 max-w-full">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -127,8 +127,8 @@ export function OutboxView() {
       {filtered.length === 0 ? (
         <EmptyState icon={Inbox} title="Nenhum e-mail com esses filtros." />
       ) : (
-        <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
-          <ul className="divide-y divide-rule border-y border-rule" aria-label="E-mails enviados">
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
+          <ul className="min-w-0 divide-y divide-rule border-y border-rule" aria-label="E-mails enviados">
             {filtered.map((e) => (
               <li key={e.id}>
                 <button
