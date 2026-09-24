@@ -1,17 +1,19 @@
 "use client";
 
 import Link from "next/link";
-import { Check, Hourglass, Lock } from "lucide-react";
+import { Check, Circle, Hourglass, Lock } from "lucide-react";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 
 import { cn } from "@/lib/utils";
 
-export type StationState = "concluida" | "atual" | "aguardando" | "bloqueada";
+export type StationState = "concluida" | "atual" | "aguardando" | "disponivel" | "bloqueada";
 
 export interface JourneyStation {
   id: string;
   title: string;
   state: StationState;
+  /** Estação atual (seção 7.2); pode estar "aguardando a Monoda". */
+  current?: boolean;
   href?: string;
   /** Texto curto abaixo do título (ex.: "2 de 3 tarefas"). */
   note?: string;
@@ -21,8 +23,11 @@ const STATE_TEXT: Record<StationState, string> = {
   concluida: "concluída",
   atual: "você está aqui",
   aguardando: "aguardando a Monoda",
+  disponivel: "liberada",
   bloqueada: "bloqueada",
 };
+
+const isCurrent = (s: JourneyStation) => s.current ?? s.state === "atual";
 
 const useIsoLayoutEffect = typeof window === "undefined" ? useEffect : useLayoutEffect;
 
@@ -50,7 +55,7 @@ function writeStored(key: string | undefined, value: number) {
  * Com animação "advance", começa do último índice visto e avança até o atual (500 ms).
  */
 function useTraveledIndex(stations: JourneyStation[], storageKey: string | undefined, animation: "draw" | "advance" | "none") {
-  const current = stations.findIndex((s) => s.state === "atual");
+  const current = stations.findIndex(isCurrent);
   const allDone = stations.every((s) => s.state === "concluida");
   const target = allDone ? stations.length - 1 : Math.max(0, current);
   const [shown, setShown] = useState(animation === "draw" ? 0 : target);
@@ -92,6 +97,13 @@ function Marker({ state }: { state: StationState }) {
       </span>
     );
   }
+  if (state === "disponivel") {
+    return (
+      <span className="relative z-10 flex size-6 shrink-0 items-center justify-center rounded-full border-2 border-ink bg-surface text-ink">
+        <Circle aria-hidden className="size-2 fill-current" strokeWidth={0} />
+      </span>
+    );
+  }
   if (state === "aguardando") {
     return (
       <span className="relative z-10 flex size-6 shrink-0 items-center justify-center rounded-full border-2 border-dashed border-ink-soft bg-surface text-ink-soft">
@@ -108,7 +120,7 @@ function Marker({ state }: { state: StationState }) {
 
 function StationLabel({ station, compact = false }: { station: JourneyStation; compact?: boolean }) {
   const title = (
-    <span className={cn(station.state === "atual" ? "font-semibold" : "font-medium", station.state === "bloqueada" && "text-ink-soft")}>
+    <span className={cn(isCurrent(station) ? "font-semibold" : "font-medium", station.state === "bloqueada" && "text-ink-soft")}>
       {station.title}
     </span>
   );
@@ -126,7 +138,12 @@ function StationLabel({ station, compact = false }: { station: JourneyStation; c
           {STATE_TEXT.atual}
         </span>
       ) : station.state === "aguardando" ? (
-        <span className="text-meta text-ink-soft">{STATE_TEXT.aguardando}</span>
+        <span className="text-meta text-ink-soft">
+          {isCurrent(station) ? <span className="sr-only">você está aqui, </span> : null}
+          {STATE_TEXT.aguardando}
+        </span>
+      ) : station.state === "disponivel" ? (
+        <span className="text-meta text-ink-soft">{STATE_TEXT.disponivel}</span>
       ) : (
         <span className="sr-only">{STATE_TEXT[station.state]}</span>
       )}
@@ -177,7 +194,7 @@ export function JourneyLine({
         {stations.map((s, i) => (
           <li
             key={s.id}
-            aria-current={s.state === "atual" ? "step" : undefined}
+            aria-current={isCurrent(s) ? "step" : undefined}
             className="relative flex w-[104px] shrink-0 snap-center flex-col items-center gap-2 px-1"
           >
             {i > 0 ? (
@@ -209,7 +226,7 @@ export function JourneyLine({
         {stations.map((s, i) => (
           <li
             key={s.id}
-            aria-current={s.state === "atual" ? "step" : undefined}
+            aria-current={isCurrent(s) ? "step" : undefined}
             className={cn("relative flex gap-3 pb-7 last:pb-0", drawing && "animate-in fade-in-0 fill-mode-both")}
             style={drawing ? { animationDelay: `${i * 70}ms`, animationDuration: "300ms" } : undefined}
           >

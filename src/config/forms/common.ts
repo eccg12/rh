@@ -10,7 +10,7 @@ export const personalSection: FormSection = {
   title: "Dados pessoais",
   fields: [
     { id: "nomeCompleto", label: "Nome completo", type: "text", required: true, prefillFrom: "name" },
-    { id: "nomeSocial", label: "Nome social", type: "text", required: false, helpText: "Opcional. É como vamos chamar você no dia a dia." },
+    { id: "nomeSocial", label: "Nome social", type: "text", required: false, helpText: "É como vamos chamar você no dia a dia." },
     { id: "dataNascimento", label: "Data de nascimento", type: "date", required: true },
     { id: "cpf", label: "CPF", type: "cpf", required: true, sensitive: true, placeholder: "000.000.000-00" },
     { id: "rgNumero", label: "RG", type: "text", required: true, sensitive: true },

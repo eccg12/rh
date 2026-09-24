@@ -191,6 +191,11 @@ export function formatDuration(days: number): string {
   return formatDays(days);
 }
 
+/** Estimativa arredondada em passos de 5 minutos (62 → 60). */
+export function roundMinutes(total: number): number {
+  return total <= 0 ? 0 : Math.max(5, Math.round(total / 5) * 5);
+}
+
 /** "10 minutos", "1 hora", "1 hora e 15 minutos". */
 export function formatMinutes(total: number): string {
   const minutes = Math.max(0, Math.round(total));

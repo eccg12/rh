@@ -18,10 +18,11 @@ export function AssistantLauncher() {
       <SheetTrigger asChild>
         <button
           type="button"
-          className="fixed right-4 bottom-4 z-30 inline-flex h-12 items-center gap-2 rounded-full bg-ink px-5 font-medium text-white shadow-float transition-colors hover:bg-ink/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
+          aria-label="Perguntar ao assistente"
+          className="fixed right-4 bottom-4 z-30 inline-flex size-12 items-center justify-center gap-2 rounded-full bg-ink font-medium text-white shadow-float transition-colors hover:bg-ink/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink sm:w-auto sm:px-5"
         >
           <MessageCircleQuestion aria-hidden className="size-5" strokeWidth={1.75} />
-          Perguntar
+          <span className="hidden sm:inline">Perguntar</span>
         </button>
       </SheetTrigger>
       <SheetContent side="right" className="gap-0 p-0">

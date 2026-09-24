@@ -14,7 +14,7 @@
 import { automationRules, type AutomationRule, type RecipientRef, type RuleAction, type RuleContext } from "@/config/automations";
 import { company } from "@/config/company";
 import { requirementById } from "@/config/documents";
-import { addDaysKey, daysBetweenKeys, formatDate, formatDateTime, formatDays, formatMinutes, formatWeekdayDate, spDateKey } from "@/lib/dates";
+import { addDaysKey, daysBetweenKeys, formatDate, formatDateTime, formatDays, formatMinutes, formatWeekdayDate, roundMinutes, spDateKey } from "@/lib/dates";
 import { firstName } from "@/lib/format";
 
 import { recordAudit } from "./audit";
@@ -131,7 +131,7 @@ async function joinerVars(
 
   switch (template) {
     case "boas-vindas":
-      return { ...base, linkPortal: portalLink(ctx, person.id, "/onboarding"), tempoEstimado: formatMinutes(view.remainingJoinerMinutes) };
+      return { ...base, linkPortal: portalLink(ctx, person.id, "/onboarding"), tempoEstimado: formatMinutes(roundMinutes(view.remainingJoinerMinutes)) };
     case "rh-documentos-recebidos":
       return { ...base, quantidadeDocumentos: String(documentState(snap).required.length), linkCaso: `${rhCaseLink}` };
     case "compliance-liberado":

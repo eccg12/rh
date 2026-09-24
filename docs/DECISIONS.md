@@ -239,3 +239,19 @@ cada uma com contexto e motivo.
 - **Decisão:** `cn()` usa `extendTailwindMerge` com a escala `meta`, `ui`, `read`, `section`, `page` e
   `hero` (e a sombra `float`), com teste de regressão.
 - **Por quê:** a escala própria da seção 12.4 continua sendo a única, sem nomes genéricos (`text-sm`).
+
+### D-OB-39 — Estado "liberada" na linha da jornada
+
+- **Contexto:** etapas andam em paralelo. Com o vídeo liberado, a etapa atual passa a ser Compliance,
+  mas "Primeiro dia" também pode ter tarefa liberada para quem entra (a agenda), sem ser a atual.
+- **Decisão:** além de concluída, atual, aguardando a Monoda e bloqueada, a estação pode estar
+  "liberada" (círculo vazado com ponto, texto "liberada"). A estação atual segue a regra da seção 7.2
+  e pode aparecer como "aguardando a Monoda" quando nada depende de quem entra.
+- **Por quê:** a linha não mente sobre o que já dá para fazer, e continua havendo uma única estação
+  "você está aqui".
+
+### D-OB-40 — Estimativas arredondadas em 5 minutos
+
+- **Contexto:** a soma das estimativas dava "1 hora e 2 minutos", precisão falsa para uma previsão.
+- **Decisão:** tela de boas-vindas e e-mail de boas-vindas arredondam para passos de 5 minutos.
+- **Por quê:** "cerca de 1 hora" comunica o esforço sem prometer o minuto.

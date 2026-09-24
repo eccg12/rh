@@ -1,10 +1,9 @@
 import { Suspense } from "react";
 
 import { PageSkeleton } from "@/components/common/page-skeleton";
-import { ShellNotice } from "@/components/common/shell-notice";
+import { JourneyView } from "@/components/onboarding/joiner/journey-view";
 import { RhCentral } from "@/components/onboarding/rh/rh-central";
 import { Forbidden } from "@/components/shell/forbidden";
-import { PageHeader } from "@/components/shell/page-header";
 import { guardModule } from "@/server/guard";
 import { api, HydrateClient } from "@/trpc/server";
 
@@ -25,10 +24,12 @@ export default async function OnboardingPage() {
     );
   }
 
+  void api.onboarding.journey.prefetch();
   return (
-    <>
-      <PageHeader title={`Oi, ${session.firstName}.`} description="Sua jornada até o primeiro dia, etapa por etapa." />
-      <ShellNotice title="Minha jornada" description="A linha da jornada e o próximo passo aparecem aqui." />
-    </>
+    <HydrateClient>
+      <Suspense fallback={<PageSkeleton rows={5} />}>
+        <JourneyView />
+      </Suspense>
+    </HydrateClient>
   );
 }

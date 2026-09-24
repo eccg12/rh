@@ -19,6 +19,7 @@ import {
   confirmBenefits,
   createCase,
   grantAccess,
+  markWelcomeSeen,
   readAgenda,
   reviewDocument,
   sendContract,
@@ -282,6 +283,10 @@ export async function buildSeedState(options: SeedOptions = {}): Promise<MemoryS
     form: async (f: NewJoinerFixture) => {
       const person = await repo.people.get(f.id);
       if (!person) throw new Error(`Pessoa não criada: ${f.id}`);
+      // Primeiro acesso ao portal (boas-vindas vistas) antes da primeira ação.
+      clock.advance(-20 * 60_000);
+      await markWelcomeSeen(ctx, f.id);
+      clock.advance(20 * 60_000);
       await submitForm(ctx, caseOf(f), sampleFormValues(f.regime, person), f.id);
     },
     docs: async (f: NewJoinerFixture) => {
