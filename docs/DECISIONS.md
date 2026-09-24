@@ -255,3 +255,71 @@ cada uma com contexto e motivo.
 - **Contexto:** a soma das estimativas dava "1 hora e 2 minutos", precisão falsa para uma previsão.
 - **Decisão:** tela de boas-vindas e e-mail de boas-vindas arredondam para passos de 5 minutos.
 - **Por quê:** "cerca de 1 hora" comunica o esforço sem prometer o minuto.
+
+### D-OB-41 — Quando o assistente responde: três critérios calibrados
+
+- **Contexto:** a seção 10.2 pede um `MIN_SCORE` calibrado nos testes. A pontuação do MiniSearch soma
+  os termos, então um limite absoluto depende do tamanho da pergunta; e um termo citado de passagem
+  no meio de um texto longo gerava falso positivo ("vale-refeição" batia com o verbo "vale" do Código
+  de Conduta).
+- **Decisão:** a resposta sai da base só quando o melhor trecho (1) tem pontuação média por termo da
+  pergunta de pelo menos 6, (2) cobre ao menos 60% dos termos e (3) trata do assunto: algum termo está
+  no título, nas tags ou no resumo. Os limites saíram de uma calibração com cerca de 50 perguntas,
+  dentro e fora da base; as da seção 10.5 e as de fora da base viraram testes.
+- **Por quê:** com esses critérios, as perguntas cobertas pela base respondem, e as de fora
+  (cachorro, estacionamento, idiomas, plano de carreira, férias, vale-refeição) encaminham. Errar para
+  o encaminhamento é mais seguro do que responder com a regra errada.
+
+### D-OB-42 — Normalização própria em português
+
+- **Contexto:** a seção 10.1 pede minúsculas, sem acento e stopwords curtas. Sem radicalização,
+  "lanço", "lançar" e "lançamento" viram termos diferentes.
+- **Decisão:** `src/server/assistant/text.ts` tem stopwords (incluindo verbos de pergunta como
+  "posso", "preciso", "funciona" e "usar") e um radicalizador leve (plural e um sufixo), sem
+  dependência nova. Cumprimentos compostos ("bom dia") saem antes da busca, para não virar "primeiro
+  dia". `fuzzy: 0.2` e `prefix: true` seguem a seção 10.1.
+- **Por quê:** melhora a cobertura sem biblioteca extra, e o comportamento fica testado.
+
+### D-OB-43 — Índice refeito pela impressão digital do conteúdo
+
+- **Contexto:** o índice precisa refletir na hora a troca de plano, a nova versão de política, os
+  artigos do Admin e a restauração da demo.
+- **Decisão:** a cada pergunta, os documentos são lidos do repositório e a chave do índice é um hash
+  do conteúdo; o MiniSearch só é refeito quando o hash muda. Políticas entram na versão vigente, com o
+  resumo da mudança como seção "O que mudou na versão N"; benefícios entram só os ativos.
+- **Por quê:** não depende de lembrar de incrementar um contador em cada ponto de edição, e o custo é
+  desprezível (cerca de 30 documentos). A regra A19 continua registrando a reindexação na auditoria.
+
+### D-OB-44 — Modo local como provedor que lê o mesmo contexto
+
+- **Contexto:** a seção 10.4 prevê `LocalProvider` com a mesma interface do provedor de LLM.
+- **Decisão:** o `LocalProvider` recebe o mesmo prompt, lê o melhor trecho de `<contexto>` e monta a
+  resposta só com o texto dele: o parágrafo que responde, o passo a passo (ou a lista) e a observação
+  seguinte; em políticas, a seção mais ligada à pergunta, com o título dela. Sai em pedaços de cerca
+  de três palavras.
+- **Por quê:** os dois modos usam a mesma busca, o mesmo `[SEM_RESPOSTA]` e o mesmo fallback, e o modo
+  local nunca escreve texto que não esteja na fonte.
+
+### D-OB-45 — Encaminhamento pelos temas do "Quem é quem" antes da categoria
+
+- **Contexto:** a seção 10.2 encaminha pela categoria do melhor trecho. Perguntas fora da base muitas
+  vezes citam um tema que só o "Quem é quem" conhece ("Quem cuida do PDI?"), e o melhor trecho de uma
+  pergunta sem resposta pode ser ruído.
+- **Decisão:** primeiro os temas de cada pessoa no "Quem é quem"; depois a categoria do melhor trecho,
+  se ele cobrir metade dos termos; senão, o contato padrão. Cada encaminhamento registra uma lacuna
+  (uma por pergunta em aberto). Cumprimentos e agradecimentos recebem uma resposta de ajuda, sem
+  lacuna.
+- **Por quê:** a pessoa certa aparece mais vezes, e a lista de lacunas do RH não enche de "oi".
+
+### D-OB-46 — Protocolo NDJSON e conversa compartilhada
+
+- **Contexto:** a seção 10.2 define os eventos `meta`, `delta`, `route` e `done`. No modo LLM, o
+  fallback ou o `[SEM_RESPOSTA]` podem acontecer depois do primeiro `meta`.
+- **Decisão:** a conversa passa por um Route Handler com `ReadableStream`, fora do tRPC; o resto do
+  assistente (lateral, fonte e avaliação) fica no tRPC. `meta` leva também o id da resposta e a
+  pergunta já mascarada; um novo `meta` reinicia o texto na tela. `route` leva nome, temas, canal e a
+  pergunta. O limite de 30 perguntas em 10 minutos vale por persona (a sessão da demo) e responde 429
+  com uma linha `error`. A conversa fica num contexto React no layout, compartilhado pela página e
+  pelo widget, e é guardada no `sessionStorage` separada por persona.
+- **Por quê:** streaming simples de ler no cliente, histórico que acompanha a navegação e nenhuma
+  conversa vazando de uma persona para outra na troca do "Ver como".

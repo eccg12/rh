@@ -3,6 +3,7 @@ import "@/styles/globals.css";
 
 import type { Metadata, Viewport } from "next";
 
+import { AssistantProvider } from "@/components/assistant/assistant-provider";
 import { AppProvider } from "@/components/shell/app-context";
 import { AppHeader } from "@/components/shell/app-header";
 import { AssistantLauncher } from "@/components/shell/assistant-launcher";
@@ -55,18 +56,23 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
                 productName: company.productName,
               }}
             >
-              <a
-                href="#conteudo"
-                className="sr-only z-50 rounded-md bg-ink px-3 py-2 text-white focus:not-sr-only focus:fixed focus:top-2 focus:left-2"
-              >
-                Pular para o conteúdo
-              </a>
-              <AppHeader />
-              <main id="conteudo" className="mx-auto w-full max-w-[1200px] px-4 pt-6 pb-28 sm:pt-8">
-                {children}
-              </main>
-              <AssistantLauncher />
-              <DemoPanel todayKey={domain.clock.todayKey()} />
+              <AssistantProvider>
+                <a
+                  href="#conteudo"
+                  className="sr-only z-50 rounded-md bg-ink px-3 py-2 text-white focus:not-sr-only focus:fixed focus:top-2 focus:left-2"
+                >
+                  Pular para o conteúdo
+                </a>
+                <AppHeader />
+                <main
+                  id="conteudo"
+                  className="mx-auto w-full max-w-[1200px] px-4 pt-6 pb-28 sm:pt-8"
+                >
+                  {children}
+                </main>
+                <AssistantLauncher />
+                <DemoPanel todayKey={domain.clock.todayKey()} />
+              </AssistantProvider>
             </AppProvider>
           </TooltipProvider>
         </TRPCReactProvider>
