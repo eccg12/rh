@@ -34,6 +34,11 @@ interface AssistantContextValue {
   stop: () => void;
   clear: () => void;
   rate: (entryId: string, helpful: boolean) => void;
+  /** Painel lateral (widget) aberto. */
+  panelOpen: boolean;
+  setPanelOpen: (open: boolean) => void;
+  /** Abre o widget e, se vier pergunta, já pergunta. */
+  openAssistant: (question?: string) => void;
 }
 
 const AssistantContext = createContext<AssistantContextValue | null>(null);
@@ -84,6 +89,7 @@ export function AssistantProvider({ children }: { children: React.ReactNode }) {
   const [entries, setEntries] = useState<ChatEntry[]>([]);
   const [loadedKey, setLoadedKey] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+  const [panelOpen, setPanelOpen] = useState(false);
   const abortRef = useRef<AbortController | null>(null);
   const entriesRef = useRef<ChatEntry[]>([]);
   useEffect(() => {
@@ -230,10 +236,18 @@ export function AssistantProvider({ children }: { children: React.ReactNode }) {
     [sendFeedback, update],
   );
 
+  const openAssistant = useCallback(
+    (question?: string) => {
+      if (question) ask(question);
+      setPanelOpen(true);
+    },
+    [ask],
+  );
+
   const ready = loadedKey === storageKey;
   const value = useMemo(
-    () => ({ entries, busy, ready, ask, stop, clear, rate }),
-    [entries, busy, ready, ask, stop, clear, rate],
+    () => ({ entries, busy, ready, ask, stop, clear, rate, panelOpen, setPanelOpen, openAssistant }),
+    [entries, busy, ready, ask, stop, clear, rate, panelOpen, openAssistant],
   );
   return <AssistantContext.Provider value={value}>{children}</AssistantContext.Provider>;
 }

@@ -178,6 +178,8 @@ export const automationRules: AutomationRule[] = [
     description: "Dispara o termo de responsabilidade e avisa por e-mail.",
     on: "equipment.assigned",
     audience: "New joiner",
+    // O termo do conteúdo é o do notebook; monitor ou headset não disparam o termo.
+    when: (ctx) => ctx.payload.type === "notebook",
     actions: [
       { type: "unlock_task", taskId: "notebook-termo" },
       { type: "send_email", template: "termo-notebook", to: "new_joiner" },

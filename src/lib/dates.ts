@@ -155,6 +155,26 @@ export function formatShortDay(key: string): string {
   return shortDayFmt.format(new Date(keyToUtcMidnight(key)));
 }
 
+const dayMonthFmt = new Intl.DateTimeFormat("pt-BR", { timeZone: "UTC", day: "numeric", month: "long" });
+
+/** "21 a 25 de setembro" ou "28 de setembro a 2 de outubro" (segunda a sexta). */
+export function formatWeekRange(mondayKey: string): string {
+  const friday = addDaysKey(mondayKey, 4);
+  const start = new Date(keyToUtcMidnight(mondayKey));
+  const end = new Date(keyToUtcMidnight(friday));
+  if (start.getUTCMonth() === end.getUTCMonth()) {
+    return `${start.getUTCDate()} a ${dayMonthFmt.format(end)}`;
+  }
+  return `${dayMonthFmt.format(start)} a ${dayMonthFmt.format(end)}`;
+}
+
+const WEEKDAY_SHORT = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
+
+/** "Seg" a partir de uma chave de data. */
+export function weekdayShort(key: string): string {
+  return WEEKDAY_SHORT[weekdayOfKey(key)] ?? "";
+}
+
 /** "hoje", "ontem", "há 3 dias" — dias de calendário entre o evento e agora. */
 export function formatAgo(value: Date | string, now: Date | string): string {
   const days = daysBetweenKeys(spDateKey(value), spDateKey(now));

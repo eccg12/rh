@@ -17,16 +17,15 @@ import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTr
  */
 export function AssistantLauncher() {
   const pathname = usePathname();
-  const [open, setOpen] = useState(false);
   const [sourceId, setSourceId] = useState<string | null>(null);
-  const { entries, clear } = useAssistant();
+  const { entries, clear, panelOpen, setPanelOpen } = useAssistant();
   if (pathname === "/assistente") return null;
 
   return (
     <Sheet
-      open={open}
+      open={panelOpen}
       onOpenChange={(next) => {
-        setOpen(next);
+        setPanelOpen(next);
         if (!next) setSourceId(null);
       }}
     >
@@ -52,7 +51,7 @@ export function AssistantLauncher() {
               </Button>
             ) : null}
             <Button asChild variant="ghost" size="sm">
-              <Link href="/assistente" onClick={() => setOpen(false)}>
+              <Link href="/assistente" onClick={() => setPanelOpen(false)}>
                 <Maximize2 aria-hidden strokeWidth={1.75} />
                 Abrir página
               </Link>

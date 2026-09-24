@@ -10,6 +10,8 @@ import {
   Hourglass,
   Lock,
   PenLine,
+  RefreshCw,
+  Route,
   Wrench,
   type LucideIcon,
 } from "lucide-react";
@@ -58,6 +60,8 @@ const STATUS: Record<string, Record<string, StatusDef>> = {
   ack: {
     aceita: { label: "Aceita", icon: CircleCheck, variant: "ok" },
     pendente: { label: "Aceite pendente", icon: Hand, variant: "signal" },
+    reaceite: { label: "Nova versão para aceitar", icon: RefreshCw, variant: "signal" },
+    na_jornada: { label: "Na jornada", icon: Route, variant: "muted" },
     nao_exige: { label: "Leitura", icon: CircleDot, variant: "muted" },
   },
   equipment: {
@@ -73,6 +77,7 @@ const STATUS: Record<string, Record<string, StatusDef>> = {
   timesheet: {
     rascunho: { label: "Rascunho", icon: PenLine, variant: "muted" },
     enviado: { label: "Enviada", icon: CircleCheck, variant: "ok" },
+    sem_apontamento: { label: "Sem apontamento", icon: CircleDashed, variant: "muted" },
   },
   gap: {
     aberta: { label: "Aberta", icon: CircleDot, variant: "outline" },

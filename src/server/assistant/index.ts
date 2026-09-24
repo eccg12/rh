@@ -108,7 +108,7 @@ function benefitDoc(plan: BenefitPlan): KnowledgeDoc {
     tags: [...BENEFIT_TAGS[plan.category], plan.providerName, BENEFIT_CATEGORY_LABELS[plan.category]],
     isExample: plan.isExample,
     updatedAt: plan.validFrom,
-    href: "/politicas-beneficios#beneficios",
+    href: "/politicas-beneficios?aba=beneficios",
   };
 }
 

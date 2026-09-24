@@ -323,3 +323,55 @@ cada uma com contexto e motivo.
   pelo widget, e é guardada no `sessionStorage` separada por persona.
 - **Por quê:** streaming simples de ler no cliente, histórico que acompanha a navegação e nenhuma
   conversa vazando de uma persona para outra na troca do "Ver como".
+
+### D-OB-47 — Aceite de política fora da jornada respeita a etapa
+
+- **Contexto:** a aba Políticas e benefícios deixa ler e aceitar políticas. Para quem está no
+  onboarding, as políticas do fluxo são aceitas na jornada, e aceitar antes da etapa liberar pularia
+  o fluxo.
+- **Decisão:** o status do aceite tem cinco estados: aceita, pendente, nova versão para aceitar, na
+  jornada e só leitura. Para quem está no onboarding, a política do fluxo aparece "na jornada" (com a
+  etapa e o link) até a tarefa liberar; o Aviso de Privacidade é aceito no envio da ficha. Depois de
+  liberada, o aceite pela aba conclui a mesma tarefa da jornada. A matriz do RH não conta "na
+  jornada" como pendência e mostra primeiro quem tem pendência; para o RH, a matriz é a aba inicial.
+- **Por quê:** uma regra só para o aceite, qualquer que seja a tela, e a matriz mostra o que depende
+  de cobrança, não o que o fluxo ainda vai pedir.
+
+### D-OB-48 — Termo de responsabilidade só para notebook
+
+- **Contexto:** o único termo do conteúdo é o do notebook (`content/termos/notebook.md`). Atribuir um
+  monitor a quem está no onboarding disparava a regra A11 e o e-mail do termo do notebook.
+- **Decisão:** A11 só dispara quando o equipamento atribuído é notebook, e só notebook pede termo em
+  Meus equipamentos. O aceite pela aba tem a mesma confirmação da jornada ("Li e aceito o termo de
+  responsabilidade").
+- **Por quê:** não pedir aceite de um texto que fala de outro equipamento, sem inventar termos novos.
+
+### D-OB-49 — Regras do apontamento semanal (beta)
+
+- **Contexto:** a seção 9.8 pede a grade, os totais, a navegação e "Enviar semana", sem regras de
+  preenchimento.
+- **Decisão:** horas de 0 a 24 em intervalos de meia hora (aceita vírgula), no máximo 24 horas por
+  dia somando os projetos, sem horas em dias que ainda não chegaram e sem semanas futuras. Semana nova
+  começa com os projetos da última semana apontada, zerados. Trocar de semana salva o rascunho.
+  "Enviar semana" pede confirmação e deixa a semana só para leitura (registro na auditoria). New
+  joiners em onboarding só leem a rotina e não entram na visão da equipe. A visão da equipe abre na
+  última semana completa até quinta-feira e na semana atual a partir de sexta.
+- **Por quê:** regras simples que evitam erro de digitação e deixam a demo verossímil, sem antecipar
+  a integração com o ERP.
+
+### D-OB-50 — Acessos antes do contrato aparecem como resumo
+
+- **Contexto:** a lista de acessos pendentes do RH mostrava nove botões desabilitados de quem ainda
+  não assinou o contrato.
+- **Decisão:** a lista mostra só o que o RH pode liberar agora; quem espera o contrato aparece num
+  resumo ("Aguardando a assinatura do contrato"), com os sistemas, sem botão.
+- **Por quê:** "uma próxima ação por tela" (DESIGN.md): a tela destaca o que depende do RH.
+
+### D-OB-51 — Página "não encontrada" sem status 404 em rotas com streaming
+
+- **Contexto:** o `loading.tsx` da raiz começa a transmitir a página antes de ela chamar
+  `notFound()`, então a resposta já saiu com status 200.
+- **Decisão:** manter o `loading.tsx` (retorno imediato na navegação) e aceitar o "404 suave": a tela
+  de não encontrado aparece normalmente, com status 200.
+- **Por quê:** para um portal interno com login, o retorno visual pesa mais que o status HTTP; se a
+  Fase 1 precisar de 404 real, basta mover o carregamento para cada página.

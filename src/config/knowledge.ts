@@ -27,3 +27,12 @@ export const POLICY_KB_CATEGORY: Record<PolicyCategory, KbCategory> = {
   privacidade: "geral",
   outros: "geral",
 };
+
+export const POLICY_CATEGORY_LABELS: Record<PolicyCategory, string> = {
+  conduta: "Conduta e compliance",
+  viagens: "Viagens",
+  ti: "TI e segurança",
+  rotina: "Rotina de trabalho",
+  privacidade: "Privacidade",
+  outros: "Outras",
+};

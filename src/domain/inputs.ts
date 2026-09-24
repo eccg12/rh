@@ -78,6 +78,24 @@ export const NewEquipmentInputSchema = z.object({
   model: z.string().trim().min(2, "Informe o modelo.").max(80),
   serial: z.string().trim().min(2, "Informe o número de série.").max(60),
 });
+export type NewEquipmentInput = z.infer<typeof NewEquipmentInputSchema>;
+
+/** Linhas da grade semanal de horas (seção 9.8). */
+export const TimesheetRowsSchema = z
+  .array(
+    z.object({
+      projectId: z.string().min(1),
+      hours: z.tuple([z.number(), z.number(), z.number(), z.number(), z.number()]),
+    }),
+  )
+  .max(12);
+
+export const SaveTimesheetInputSchema = z.object({
+  weekStart: DateOnlySchema,
+  rows: TimesheetRowsSchema,
+  submit: z.boolean().default(false),
+});
+export type SaveTimesheetInput = z.infer<typeof SaveTimesheetInputSchema>;
 
 export const PublishPolicyInputSchema = z.object({
   policyId: z.string(),
