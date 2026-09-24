@@ -1,0 +1,38 @@
+# dependências
+/node_modules
+/.pnp
+.pnp.js
+
+# testes
+/coverage
+
+# next.js
+/.next/
+/out/
+next-env.d.ts
+
+# produção
+/build
+
+# diversos
+.DS_Store
+*.pem
+.vscode/*
+!.vscode/extensions.json
+.idea
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# variáveis de ambiente locais (só o .env.example vai para o git)
+.env
+.env*.local
+
+# typescript
+*.tsbuildinfo
+
+# capturas locais de revisão visual
+/.screenshots/
