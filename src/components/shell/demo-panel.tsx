@@ -1,10 +1,13 @@
 "use client";
 
-import { usePathname } from "next/navigation";
-import { CalendarDays, Check, FlaskConical } from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
+import { CalendarDays, Check, FastForward, FlaskConical, RotateCcw } from "lucide-react";
 import { useState } from "react";
+import { toast } from "sonner";
 
 import { PersonAvatar } from "@/components/common/person-chip";
+import { Button } from "@/components/ui/button";
+import { api } from "@/trpc/react";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { formatWeekdayDate } from "@/lib/dates";
 
@@ -14,10 +17,31 @@ import { personaSwitchUrl, useApp } from "./app-context";
  * Painel "Demo" (seção 5): persona atual e troca rápida, data virtual e restauração dos dados.
  * Só existe com DEMO_MODE=true.
  */
-export function DemoPanel({ todayKey, children }: { todayKey: string; children?: React.ReactNode }) {
+export function DemoPanel({ todayKey }: { todayKey: string }) {
   const { session, personas, demoMode } = useApp();
   const pathname = usePathname();
+  const router = useRouter();
+  const utils = api.useUtils();
   const [open, setOpen] = useState(false);
+  const refresh = async () => {
+    await utils.invalidate();
+    router.refresh();
+  };
+  const advance = api.demo.advanceDay.useMutation({
+    onSuccess: async () => {
+      await refresh();
+      toast.success("Dia avançado", { description: "Lembretes e avisos do novo dia já saíram." });
+    },
+    onError: (e) => toast.error(e.message),
+  });
+  const reset = api.demo.reset.useMutation({
+    onSuccess: async () => {
+      await refresh();
+      setOpen(false);
+      toast.success("Dados iniciais restaurados");
+    },
+    onError: (e) => toast.error(e.message),
+  });
   if (!demoMode) return null;
 
   return (
@@ -45,7 +69,10 @@ export function DemoPanel({ todayKey, children }: { todayKey: string; children?:
               <CalendarDays aria-hidden className="size-4" strokeWidth={1.75} />
               {formatWeekdayDate(todayKey)}
             </p>
-            {children}
+            <Button variant="outline" onClick={() => advance.mutate()} disabled={advance.isPending} className="w-fit">
+              <FastForward aria-hidden />
+              {advance.isPending ? "Avançando…" : "Avançar 1 dia"}
+            </Button>
           </section>
           <section className="flex flex-col gap-2">
             <h3 className="text-meta font-semibold text-ink-soft">Ver como</h3>
@@ -67,6 +94,21 @@ export function DemoPanel({ todayKey, children }: { todayKey: string; children?:
                 </li>
               ))}
             </ul>
+          </section>
+          <section className="flex flex-col gap-2">
+            <h3 className="text-meta font-semibold text-ink-soft">Dados</h3>
+            <p className="text-meta text-ink-soft">Volta ao seed: casos, e-mails e configurações do início da demo.</p>
+            <Button
+              variant="outline"
+              className="w-fit"
+              disabled={reset.isPending}
+              onClick={() => {
+                if (window.confirm("Restaurar os dados iniciais? Tudo o que foi feito nesta sessão será apagado.")) reset.mutate();
+              }}
+            >
+              <RotateCcw aria-hidden />
+              {reset.isPending ? "Restaurando…" : "Restaurar dados iniciais"}
+            </Button>
           </section>
         </div>
       </SheetContent>

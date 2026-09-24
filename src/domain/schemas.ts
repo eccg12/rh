@@ -56,6 +56,9 @@ export const DomainEventTypeSchema = z.enum([
   "policy.version_published",
   "benefit.provider_changed",
   "clock.tick",
+  // Extensões (D-OB-27): conclusão de tarefa manual e resposta da pesquisa.
+  "task.completed",
+  "feedback.submitted",
 ]);
 export type DomainEventType = z.infer<typeof DomainEventTypeSchema>;
 

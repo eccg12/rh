@@ -1,0 +1,65 @@
+{
+  "id": "quiz-compliance",
+  "title": "Quiz de compliance",
+  "version": 1,
+  "passingScore": 80,
+  "maxAttempts": 3,
+  "isExample": true,
+  "questions": [
+    {
+      "id": "q1",
+      "prompt": "Um amigo seu é sócio de um fornecedor que está concorrendo num projeto em que você atua. O que fazer?",
+      "options": [
+        "Nada, desde que você não fale com ele sobre o projeto",
+        "Avisar o gestor e ficar fora da decisão sobre o fornecedor",
+        "Dar preferência ao fornecedor, se o preço for igual"
+      ],
+      "correctIndex": 1,
+      "explanation": "É um conflito de interesses. Declarar ao gestor e sair da decisão protege você, o cliente e a Monoda."
+    },
+    {
+      "id": "q2",
+      "prompt": "No fim do projeto, o cliente oferece um relógio de valor como agradecimento. Qual a conduta?",
+      "options": [
+        "Aceitar, porque o projeto já terminou",
+        "Aceitar e dividir com a equipe",
+        "Agradecer e recusar, ou consultar o gestor antes de aceitar"
+      ],
+      "correctIndex": 2,
+      "explanation": "Só brindes de valor simbólico são aceitos. Presentes de valor precisam ser recusados ou aprovados pelo gestor."
+    },
+    {
+      "id": "q3",
+      "prompt": "Você precisa analisar uma base com dados pessoais de funcionários do cliente. Onde trabalhar com ela?",
+      "options": [
+        "Na pasta do projeto no Drive, acessando só o necessário",
+        "No seu e-mail pessoal, para abrir mais rápido no celular",
+        "Num pen drive, para trabalhar sem internet"
+      ],
+      "correctIndex": 0,
+      "explanation": "Dados de clientes ficam só nas ferramentas aprovadas, e a LGPD pede acesso mínimo e pelo tempo necessário."
+    },
+    {
+      "id": "q4",
+      "prompt": "Um modelo que você fez para o cliente A seria útil no cliente B. O que é permitido?",
+      "options": [
+        "Reusar o arquivo como está, já que foi você quem fez",
+        "Reusar só depois de retirar tudo que identifique o cliente A, com autorização do sócio",
+        "Enviar o arquivo ao cliente B como exemplo"
+      ],
+      "correctIndex": 1,
+      "explanation": "Material de cliente não é reaproveitado sem descaracterização completa e autorização do sócio responsável."
+    },
+    {
+      "id": "q5",
+      "prompt": "Você presenciou uma conduta que parece contrária ao código. Como relatar?",
+      "options": [
+        "Ao RH ou a um sócio, inclusive de forma anônima",
+        "Só depois de ter provas completas",
+        "Em conversa com o cliente, para ele decidir"
+      ],
+      "correctIndex": 0,
+      "explanation": "O relato vai ao RH ou a um sócio, pode ser anônimo e, feito de boa-fé, nunca gera retaliação."
+    }
+  ]
+}

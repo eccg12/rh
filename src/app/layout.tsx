@@ -10,7 +10,7 @@ import { DemoPanel } from "@/components/shell/demo-panel";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { company } from "@/config/company";
-import { spDateKey } from "@/lib/dates";
+import { getDomain } from "@/server/domain";
 import { isDemoMode } from "@/server/env";
 import { getSession, listPersonas } from "@/server/session";
 import { TRPCReactProvider } from "@/trpc/react";
@@ -31,7 +31,8 @@ export const viewport: Viewport = {
 };
 
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  const [session, personas] = await Promise.all([getSession(), listPersonas()]);
+  const domain = await getDomain();
+  const [session, personas] = await Promise.all([getSession(), listPersonas(domain)]);
   const demoMode = isDemoMode();
 
   return (
@@ -65,7 +66,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
                 {children}
               </main>
               <AssistantLauncher />
-              <DemoPanel todayKey={spDateKey(new Date())} />
+              <DemoPanel todayKey={domain.clock.todayKey()} />
             </AppProvider>
           </TooltipProvider>
         </TRPCReactProvider>

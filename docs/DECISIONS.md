@@ -134,3 +134,91 @@ cada uma com contexto e motivo.
 - **Contexto:** páginas usam o helper global `PageProps<'/rota/[param]'>`, gerado pelo Next.js.
 - **Decisão:** o script é `next typegen && tsc --noEmit`.
 - **Por quê:** o typecheck funciona num clone limpo, sem depender de um build anterior.
+
+### D-OB-27 — Dois eventos de domínio a mais: `task.completed` e `feedback.submitted`
+
+- **Contexto:** tarefas manuais (e-mail corporativo, exame agendado, envio à contabilidade, agenda
+  lida) e a resposta da pesquisa não tinham evento na lista da seção 8.1.
+- **Decisão:** `task.completed` (com `taskDefId`) para tarefas concluídas por uma pessoa e
+  `feedback.submitted` para a pesquisa. Os dois reavaliam o fluxo como qualquer evento.
+- **Por quê:** toda mudança de estado passa pelo mesmo `emit`, e a linha do tempo fica completa.
+
+### D-OB-28 — Liberar tarefas é do fluxo; a regra dá nome e aviso
+
+- **Contexto:** o plano descreve ações `create_task`/`unlock_task` nas regras e, ao mesmo tempo,
+  condições de liberação no fluxo. Se a liberação dependesse só da regra, desligar a A03 (aviso do
+  vídeo) travaria o onboarding.
+- **Decisão:** o motor de fluxo libera as tarefas pelas condições de `src/config/workflows`. Quando
+  uma regra habilitada nomeia a tarefa liberada, o registro "tarefa liberada" (ator `automacao`) sai
+  atribuído a ela; desligada, a tarefa ainda é liberada, sem e-mail e sem atribuição.
+- **Por quê:** processo continua sendo configuração (D-OB-04) e desligar um aviso nunca trava ninguém.
+
+### D-OB-29 — Status de tarefa derivado dos fatos
+
+- **Contexto:** guardar o status só como campo solto deixa a tela divergir dos dados (um documento
+  rejeitado depois de "tudo enviado", um contrato recusado).
+- **Decisão:** o status é recalculado a cada evento a partir dos fatos (ficha, documentos, contrato,
+  aceites…) e das condições; é persistido com `availableAt` e `completedAt`. Só "documentos",
+  "revisão de documentos" e "preparar contrato" podem voltar atrás; as demais conclusões são
+  definitivas.
+- **Por quê:** a mesma função alimenta telas, regras, indicadores e testes.
+
+### D-OB-30 — `DataRepository` assíncrono e contexto de domínio injetado
+
+- **Contexto:** o `MemoryRepository` poderia ser síncrono, mas o `PrismaRepository` da Fase 1 não.
+- **Decisão:** a interface é toda assíncrona, e os serviços recebem um `DomainContext` (repositório,
+  relógio, provedores, URL base). O app usa um contexto único em `src/server/domain.ts`; testes e seed
+  montam o próprio.
+- **Por quê:** trocar de repositório não muda serviços nem routers; testes rodam com relógio
+  controlado.
+
+### D-OB-31 — Seed como linha do tempo reproduzida pelo próprio motor
+
+- **Contexto:** o seed precisa de histórico retroativo coerente (tempos por etapa, e-mails,
+  lembretes, linha do tempo).
+- **Decisão:** o seed agenda cada ação (cadastro, ficha, documentos, revisões…) numa data relativa ao
+  dia da demo, junta as viradas de dia às 7h e executa tudo em ordem cronológica com os serviços
+  reais. Resultado: gargalo em "Cadastro e documentos", lead time médio de 12,5 dias e caixa de saída
+  coerente, sem estado escrito à mão.
+- **Por quê:** o que a demo mostra é o que o motor produz, e o seed quebra se o motor quebrar.
+
+### D-OB-32 — Virada de dia automática, uma vez por dia virtual
+
+- **Contexto:** lembretes (A15) e véspera (A14) dependem de `clock.tick`, e o dia também vira sem
+  ninguém clicar em "Avançar 1 dia".
+- **Decisão:** a primeira requisição de um novo dia virtual emite `clock.tick` (guardado em
+  `lastTickDate`). "Avançar 1 dia" faz o mesmo na hora. A virada em si não vai para a auditoria; o
+  avanço manual vai (`demo.day_advanced`).
+- **Por quê:** simula o agendador da Fase 2 (Cloud Scheduler) sem poluir a auditoria.
+
+### D-OB-33 — Idempotência por caso ou por assunto
+
+- **Contexto:** "cada regra dispara no máximo uma vez por caso e evento", mas A18 e A19 não têm caso.
+- **Decisão:** a chave é `regra + caso`; sem caso, `regra + assunto` (ex.: `politica-de-viagens:v3`,
+  id do plano novo). Regras repetíveis (A04, A10, A15, A18) registram cada disparo; A15 respeita o
+  intervalo de 3 dias por tarefa.
+- **Por quê:** A19 avisa a cada troca de provedor sem avisar duas vezes a mesma troca.
+
+### D-OB-34 — E-mails em Markdown renderizados com `marked`
+
+- **Contexto:** os modelos de `content/emails` são Markdown com `{{variáveis}}`; `react-dom/server`
+  não pode ser usado em código compartilhado com Server Components.
+- **Decisão:** `marked` converte o Markdown; variáveis são escapadas (exceto listas montadas pela
+  plataforma) e o HTML vai num layout com a marca, com estilos inline.
+- **Por quê:** e-mail precisa de HTML autocontido e sem risco de injeção a partir de nomes digitados.
+
+### D-OB-35 — Aviso de privacidade como política versionada
+
+- **Contexto:** o plano tem `content/termos/privacidade.md` (aceite na ficha) e "Aviso de
+  Privacidade v1" entre as políticas.
+- **Decisão:** o arquivo de `termos/` é a fonte e o carregador o registra como política
+  `aviso-de-privacidade`. O aceite na ficha vira `PolicyAck` da versão vigente (evidência).
+- **Por quê:** um texto só, com versão e aceite rastreáveis como as demais políticas.
+
+### D-OB-36 — Modelo de contrato CLT de exemplo
+
+- **Contexto:** os modelos de exemplo do plano são "Prestação de serviços PJ" e "Termo de
+  confidencialidade"; o fluxo CLT precisa de um contrato de trabalho.
+- **Decisão:** `contratos/modelos.json` inclui "Contrato de trabalho CLT — modelo em validação",
+  marcado como exemplo.
+- **Por quê:** o fluxo CLT preparado (seção 7.3) roda de ponta a ponta sem inventar contrato real.

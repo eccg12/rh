@@ -1,0 +1,23 @@
+[
+  {
+    "id": "pj-padrao",
+    "name": "Prestação de serviços PJ — modelo padrão",
+    "description": "Contrato de prestação de serviços de consultoria, com cláusulas de confidencialidade e propriedade intelectual.",
+    "regimes": ["PJ"],
+    "isExample": true
+  },
+  {
+    "id": "termo-confidencialidade",
+    "name": "Termo de confidencialidade",
+    "description": "Acordo de confidencialidade para quem acessa informações de clientes antes do contrato principal.",
+    "regimes": ["PJ", "CLT"],
+    "isExample": true
+  },
+  {
+    "id": "clt-padrao",
+    "name": "Contrato de trabalho CLT — modelo em validação",
+    "description": "Contrato de trabalho por prazo indeterminado. Em validação com a contabilidade.",
+    "regimes": ["CLT"],
+    "isExample": true
+  }
+]
